@@ -183,7 +183,7 @@ async function evModal(id,tab='r'){
   body=`<div class="two"><div><div class="s" style="margin:0 0 4px">Presenti</div>${L(ps.filter(p=>p.stato==='presente').map(p=>p.nome||p.username))}</div><div><div class="s" style="margin:0 0 4px">Assenti</div>${L(ps.filter(p=>p.stato!=='presente').map(p=>p.nome||p.username))}</div></div><div class="s">Chi non ha ancora votato:</div>${L(nv)}`;
  }
  let st=null;if(S.u){const g=await getDoc(doc(db,"presenze",id+"_"+S.u.username));if(g.exists())st=g.data().stato}
- const h=`<div class="ov" data-a="close"><div class="mc" onclick="event.stopPropagation()"><div class="front glass" style="margin-bottom:12px"><div class="t" style="font-size:26px;margin-bottom:10px">${E(e.tipo)}</div><div style="display:flex;gap:8px;margin-bottom:12px"><span class="pill${tab==='r'?'':' off'}" data-a="tab" data-v="${id}|r">Riepilogo</span><span class="pill${tab==='p'?'':' off'}" data-a="tab" data-v="${id}|p">Presenze</span></div><div style="min-height:230px">${body}</div></div>
+ const h=`<div class="ov" data-a="close"><div class="mc"><div class="front glass" style="margin-bottom:12px"><div class="t" style="font-size:26px;margin-bottom:10px">${E(e.tipo)}</div><div style="display:flex;gap:8px;margin-bottom:12px"><span class="pill${tab==='r'?'':' off'}" data-a="tab" data-v="${id}|r">Riepilogo</span><span class="pill${tab==='p'?'':' off'}" data-a="tab" data-v="${id}|p">Presenze</span></div><div style="min-height:230px">${body}</div></div>
  <div class="stack tp"><div class="back"><span class="lab" style="text-transform:uppercase">Il tuo voto:</span></div><div class="front glass vt"><span class="pill ok off${st==='presente'?' sel':''}" style="${st==='presente'?'':'background:rgba(255,255,255,.08)'}" data-a="vota" data-v="${id}|presente">Presente</span><span class="pill ko${st==='assente'?' sel':''}" style="${st==='assente'?'':'background:rgba(255,255,255,.08)'}" data-a="vota" data-v="${id}|assente">Assente</span></div></div></div></div>`;
  modal(h);
 }
@@ -242,7 +242,7 @@ function render(){
 function go(p){if(p!=='area')S.prev=p;S.page=p;window.scrollTo(0,0);render()}
 function modal(h){closeM();const d=document.createElement('div');d.id='mod';d.innerHTML=h;document.body.appendChild(d)}
 function closeM(){$('#mod')?.remove()}
-const glassCard=(h)=>modal(`<div class="ov" data-a="close"><div class="mc" onclick="event.stopPropagation()"><div class="front glass">${h}</div></div></div>`);
+const glassCard=(h)=>modal(`<div class="ov" data-a="close"><div class="mc"><div class="front glass">${h}</div></div></div>`);
 function loginM(){glassCard(`<div class="t" style="font-size:30px;margin:6px 0 14px">Login</div><input class="in" id="lu" placeholder="Username" autocapitalize="none"><input class="in" id="lp" type="password" placeholder="Password"><button class="btn" data-a="login" style="margin-top:18px">Accedi</button><label class="ck"><input type="checkbox" id="lr">Resta collegato</label>`)}
 /* ---------- AZIONI ---------- */
 const save=(f)=>S.uid&&updateDoc(doc(db,"utenti",S.uid),f).catch(e=>alert("Errore salvataggio: "+e.message));
