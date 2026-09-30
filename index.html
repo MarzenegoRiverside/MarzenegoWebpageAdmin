@@ -3,209 +3,128 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>MARZENEGO RIVERSIDE</title>
-<link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#0a2a12">
+<title>Marzenego Riverside</title>
+<link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Manrope:wght@300;400;500;700;800&display=swap" rel="stylesheet">
 <style>
-:root{
-  --ink:#EEF3E8; --gold:#F4C430; --green:#1E7A3A; --red:#ff453a;
-  --glass-bg:linear-gradient(135deg,rgba(255,255,255,.20) 0%,rgba(255,255,255,.06) 55%,rgba(255,255,255,.03) 100%);
-  --glass-blur:blur(22px) saturate(150%);
-  --glass-edge:rgba(255,255,255,.30);
-}
+:root{--txt:#EEF3E8;--gold:#F4C430;--green:#1E7A3A;--glass:rgba(255,255,255,.09);--line:rgba(255,255,255,.28)}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html,body{height:100%;background:#000;color:var(--ink);font-family:'Manrope',system-ui,sans-serif;overflow:hidden}
-
-/* Sfondo: nero + cerchi sfumati verde/giallo. Se presente "sfondo.jpg" viene usato al suo posto */
-#bg{position:fixed;inset:0;z-index:0;background:
-  url('sfondo.jpg') center/cover no-repeat,
-  radial-gradient(circle at 12% 40%,rgba(244,196,48,.62) 0,rgba(244,196,48,.28) 22%,transparent 46%),
-  radial-gradient(circle at 70% 6%,rgba(30,122,58,.95) 0,rgba(30,122,58,.55) 30%,transparent 62%),
-  radial-gradient(circle at 92% 30%,rgba(50,140,60,.7) 0,transparent 40%),
-  radial-gradient(circle at 18% 78%,rgba(30,122,58,.75) 0,rgba(30,122,58,.3) 32%,transparent 58%),
-  #000}
-
-#app{position:relative;z-index:1;height:100dvh;width:100%;max-width:430px;margin:0 auto;
-  display:flex;flex-direction:column;padding:calc(env(safe-area-inset-top,0px) + 14px) 18px calc(env(safe-area-inset-bottom,0px) + 18px)}
-
-/* Elementi glass */
-.glass{background:var(--glass-bg);-webkit-backdrop-filter:var(--glass-blur);backdrop-filter:var(--glass-blur);
-  border:1px solid var(--glass-edge);border-right-color:rgba(255,255,255,.12);border-bottom-color:rgba(255,255,255,.12);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.35),inset -1px -1px 0 rgba(255,255,255,.08),0 12px 32px rgba(0,0,0,.28)}
-
-/* HEADER */
-#header{display:flex;align-items:flex-start;justify-content:space-between;padding:0 4px;flex:none}
-#brand{line-height:.9}
-#brand .n{display:block;font-weight:700;font-size:36px;letter-spacing:-.5px;color:var(--ink)}
-#brand .r{display:block;font-family:'Alex Brush',cursive;font-size:36px;color:var(--gold);margin-top:-8px;margin-left:2px}
-#userBtn{width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;
-  color:var(--ink);font-weight:800;font-size:22px;overflow:hidden;flex:none;transition:transform .15s}
-#userBtn:active{transform:scale(.94)}
-#userBtn svg{width:34px;height:34px;fill:currentColor}
-#userBtn.on{background:var(--gold);color:#1a1a0a;border-color:rgba(255,255,255,.5)}
-#userBtn img{width:100%;height:100%;object-fit:cover}
-
-/* NAV BAR */
-#nav{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin:10px -18px 12px;padding:0 18px;flex:none;-webkit-overflow-scrolling:touch}
-#nav::-webkit-scrollbar{display:none}
-.tab{flex:none;padding:6px 15px;border-radius:999px;font-size:20px;font-weight:400;color:rgba(238,243,232,.62);
-  cursor:pointer;border:1px solid transparent;white-space:nowrap;transition:all .2s}
-.tab.active{color:var(--ink);font-weight:700;background:var(--glass-bg);border-color:var(--glass-edge);border-right-color:rgba(255,255,255,.12);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.3);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
-
-/* PAGINE */
-.page{display:none;flex:1;min-height:0;flex-direction:column;gap:14px}
-.page.active{display:flex}
-
-/* CARD PRINCIPALE */
-.mainWrap{flex:1;min-height:0;display:flex;flex-direction:column;border-radius:34px;position:relative}
-.viewport{flex:1;min-height:0;overflow:hidden;border-radius:34px;position:relative;touch-action:pan-y}
-.track{display:flex;height:100%;transition:transform .38s cubic-bezier(.22,.8,.3,1);will-change:transform}
-.track.drag{transition:none}
-.slide{flex:0 0 100%;height:100%;padding:24px 26px 44px;display:flex;flex-direction:column;overflow:hidden;user-select:none}
-.mainCard{border-radius:34px;flex:1;min-height:0;display:flex;flex-direction:column;overflow:hidden;position:relative}
-.dots{position:absolute;left:0;right:0;bottom:16px;display:flex;justify-content:center;gap:8px;pointer-events:none}
-.dot{width:14px;height:14px;border-radius:50%;border:1.5px solid rgba(255,255,255,.4);background:rgba(255,255,255,.08);transition:all .25s}
-.dot.on{background:var(--gold);border-color:var(--gold)}
-.nextBar{flex:none;margin:-14px 6px 0;padding:22px 20px 8px;border-radius:0 0 28px 28px;font-size:15px;font-weight:400;
-  text-decoration:underline;text-underline-offset:3px;color:rgba(238,243,232,.85);order:2}
-.nextWrap{display:flex;flex-direction:column}
-
-.h1{font-size:32px;font-weight:700;line-height:1.1;letter-spacing:-.3px}
-.sub{font-size:20px;font-weight:400;color:rgba(238,243,232,.68);margin-top:4px}
+html,body{height:100%}
+body{font-family:'Manrope',sans-serif;color:var(--txt);background:#000;overflow-x:hidden}
+/* sfondo: se presente sfondo.jpg viene usato, altrimenti gradienti equivalenti */
+.bg{position:fixed;inset:0;z-index:-1;background:
+ url("sfondo.jpg") center/cover no-repeat,
+ radial-gradient(circle at 12% 40%,rgba(160,130,25,.95) 0,rgba(160,130,25,0) 38%),
+ radial-gradient(circle at 75% 12%,rgba(50,135,60,.95) 0,rgba(50,135,60,0) 48%),
+ radial-gradient(circle at 20% 80%,rgba(30,110,50,.9) 0,rgba(30,110,50,0) 45%),
+ #020802}
+.app{max-width:440px;margin:0 auto;min-height:100%;padding:calc(env(safe-area-inset-top,0px) + 22px) 28px calc(env(safe-area-inset-bottom,0px) + 24px);display:flex;flex-direction:column}
+/* header */
+.hdr{display:flex;align-items:flex-start;justify-content:space-between;padding:0 4px}
+.brand{line-height:1}
+.brand b{display:block;font-weight:700;font-size:36px;letter-spacing:-.5px;color:var(--txt)}
+.brand i{display:block;font-family:'Alex Brush',cursive;font-style:normal;font-size:36px;color:var(--gold);margin-top:-8px;margin-left:-2px}
+.glass{background:linear-gradient(145deg,rgba(255,255,255,.16),rgba(255,255,255,.04));border:1px solid var(--line);backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%);box-shadow:inset 0 1px 0 rgba(255,255,255,.3),inset 0 -1px 0 rgba(255,255,255,.06),0 8px 24px rgba(0,0,0,.22)}
+.user{width:62px;height:62px;border-radius:50%;display:grid;place-items:center;cursor:pointer;border:1px solid var(--line);overflow:hidden;color:#fff;font:700 20px 'Manrope'}
+.user svg{width:30px;height:30px;fill:#fff}
+.user.on{background:var(--gold);color:#1a1a00;border-color:var(--gold)}
+.user img{width:100%;height:100%;object-fit:cover}
+/* nav */
+.nav{display:flex;gap:6px;overflow-x:auto;margin:16px -28px 0;padding:4px 28px;scrollbar-width:none}
+.nav::-webkit-scrollbar{display:none}
+.nav a{flex:none;padding:7px 14px;border-radius:20px;font-size:20px;font-weight:400;color:rgba(238,243,232,.6);cursor:pointer;border:1px solid transparent;white-space:nowrap}
+.nav a.act{color:var(--txt);font-weight:700;border-color:var(--line);background:linear-gradient(145deg,rgba(255,255,255,.2),rgba(255,255,255,.05));box-shadow:inset 0 1px 0 rgba(255,255,255,.3)}
+/* card a due livelli: box in secondo piano (piu' lungo) + box in primo piano */
+.card{position:relative;margin-top:20px;padding-bottom:44px}
+.card .back{position:absolute;left:0;right:0;top:60px;bottom:0;border-radius:36px;z-index:1;background:linear-gradient(165deg,rgba(255,255,255,.1),rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.26);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:inset 0 1px 0 rgba(255,255,255,.14)}
+.card .next{position:absolute;left:0;right:0;bottom:0;height:44px;display:flex;align-items:center;padding:0 24px;font-size:15px;font-weight:300;text-decoration:underline;color:rgba(238,243,232,.92);white-space:nowrap}
+.card.sec .next{text-decoration:none}
+.card .front{position:relative;z-index:2;border-radius:36px;overflow:hidden;touch-action:pan-y;user-select:none;-webkit-user-select:none}
+.card img{-webkit-user-drag:none;user-drag:none;pointer-events:none}
+.track{display:flex;will-change:transform;cursor:grab}
+.track:active{cursor:grabbing}
+.slide{flex:0 0 100%;min-width:0;padding:26px 24px 56px}
+.dots{position:absolute;left:0;right:0;bottom:16px;display:flex;justify-content:center;gap:7px;z-index:2}
+.dots span{width:13px;height:13px;border-radius:50%;border:1px solid rgba(255,255,255,.4);background:rgba(255,255,255,.14);transition:background .2s}
+.dots span.on{background:var(--gold);border-color:var(--gold)}
+h1{font-size:32px;font-weight:700;line-height:1.1}
+.sub{font-size:20px;font-weight:400;color:rgba(238,243,232,.85)}
 .lead{font-size:18px;font-weight:700;line-height:1.3;margin:22px 0 18px}
-.head{display:flex;gap:16px;align-items:center}
-.head img{width:92px;height:auto;flex:none;filter:drop-shadow(0 4px 10px rgba(0,0,0,.4))}
-.pinsTitle{font-weight:700;font-size:15px;margin-bottom:6px}
-.pin{font-size:15px;font-weight:400;color:rgba(238,243,232,.85);margin-bottom:9px;line-height:1.25;
-  display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden}
-.empty{font-size:15px;color:rgba(238,243,232,.6)}
-
-/* News */
-.list{display:flex;flex-direction:column;gap:20px;margin-top:26px;overflow:hidden}
-.news{display:flex;align-items:center;gap:14px;justify-content:space-between}
-.news .t{font-weight:700;font-size:17px;line-height:1.2}
-.news .b{font-weight:400;font-size:17px;color:rgba(238,243,232,.72);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:190px}
-.news .tx{min-width:0;flex:1}
-.news img{width:84px;height:56px;border-radius:14px;object-fit:cover;flex:none;border:1px solid rgba(255,255,255,.2)}
-
-/* Risultati */
-.res{display:flex;align-items:center;justify-content:space-between;gap:12px}
-.res .t{font-weight:700;font-size:17px}
-.res .b{font-weight:400;font-size:17px;color:rgba(238,243,232,.72)}
-.badge{width:58px;height:58px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:700;flex:none}
-.badge.W{color:var(--gold)}.badge.D{color:var(--ink)}.badge.L{color:var(--red)}
-
-/* CARD SECONDARIA */
-.secCard{flex:none;border-radius:30px;padding:14px 16px 0;display:flex;flex-direction:column}
-.days{display:flex;justify-content:space-between;gap:6px;padding-bottom:12px}
-.day{flex:1;height:68px;border-radius:26px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
-  color:rgba(238,243,232,.42);font-size:15px;font-weight:400;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.04)}
-.day.today{background:var(--gold);color:#fff;font-weight:800;border-color:var(--gold);box-shadow:0 6px 18px rgba(244,196,48,.3)}
-.secNext{border-top:1px solid rgba(255,255,255,.14);padding:12px 6px 14px;font-size:15px;color:rgba(238,243,232,.85)}
-
-/* Placeholder sezioni */
-.soon{flex:1;padding:26px;border-radius:34px;display:flex;flex-direction:column}
-
-/* Modale login */
-#modal{position:fixed;inset:0;z-index:50;display:none;align-items:center;justify-content:center;padding:24px;background:rgba(0,0,0,.45);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
-#modal.show{display:flex}
-.box{width:100%;max-width:360px;border-radius:30px;padding:26px 24px;background:linear-gradient(135deg,rgba(255,255,255,.22),rgba(255,255,255,.07))}
-.box h2{font-size:26px;font-weight:700;margin-bottom:16px}
-.box input[type=text],.box input[type=password]{width:100%;padding:13px 16px;margin-bottom:10px;border-radius:16px;border:1px solid rgba(255,255,255,.28);
-  background:rgba(0,0,0,.25);color:var(--ink);font:400 16px 'Manrope',sans-serif;outline:none}
-.box input::placeholder{color:rgba(238,243,232,.5)}
-.box label{display:flex;align-items:center;gap:8px;font-size:15px;margin:6px 0 16px;color:rgba(238,243,232,.85)}
-.btn{width:100%;padding:13px;border-radius:999px;border:none;font:700 16px 'Manrope',sans-serif;cursor:pointer;margin-top:4px}
-.btn.p{background:var(--gold);color:#1a1a0a}
-.btn.s{background:rgba(255,255,255,.12);color:var(--ink);border:1px solid rgba(255,255,255,.25)}
-.err{color:#ff8a80;font-size:14px;min-height:18px;margin-bottom:6px}
-.who{font-size:18px;margin-bottom:18px}
-
-@media (min-width:600px){ #app{padding-top:28px;padding-bottom:28px} }
-@media (max-height:700px){ .h1{font-size:28px}.lead{margin:12px 0}.head img{width:72px}.list{gap:14px;margin-top:16px}.day{height:56px} }
+.lbl{font-weight:700;font-size:15px;margin-bottom:6px}
+.pin{font-size:15px;font-weight:300;margin:0 0 12px;color:rgba(238,243,232,.85)}
+.bhead{display:flex;gap:18px;align-items:center}
+.bhead img{width:72px;height:auto;flex:none}
+.row{display:flex;align-items:center;gap:14px;margin:0 0 18px}
+.row .t{flex:1;min-width:0}
+.row b{display:block;font-size:17px;font-weight:700}
+.row span.s{display:block;font-size:17px;font-weight:300;color:rgba(238,243,232,.8);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row img{width:84px;height:56px;object-fit:cover;border-radius:14px;flex:none}
+.esito{width:62px;height:62px;border-radius:50%;display:grid;place-items:center;font-size:30px;font-weight:700;border:1px solid var(--line);background:linear-gradient(145deg,rgba(255,255,255,.14),rgba(255,255,255,.02));flex:none}
+.W{color:var(--gold)}.D{color:#fff}.L{color:#ff3b3b}
+.empty{font-weight:300;opacity:.75;font-size:15px}
+/* card secondaria: mini calendario */
+.days{display:flex;justify-content:space-between;gap:7px;padding:16px 16px}
+.day{flex:1;height:66px;border-radius:22px;border:1px solid rgba(255,255,255,.2);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:15px;font-weight:300;color:rgba(238,243,232,.4);background:rgba(0,0,0,.14)}
+.day.today{background:var(--gold);border-color:var(--gold);color:#fff;font-weight:700}
+/* sezioni extra: lista dentro card */
+.item{padding:14px 0;border-bottom:1px solid rgba(255,255,255,.12)}
+.item:last-child{border:0}
+.item b{font-size:17px;display:block}
+.item small{font-weight:300;font-size:14px;opacity:.8;display:block;margin-top:2px;white-space:pre-wrap}
+.vote{display:flex;gap:8px;margin-top:10px}
+.btn{flex:1;padding:10px;border-radius:16px;border:1px solid var(--line);background:rgba(255,255,255,.08);color:var(--txt);font:700 14px 'Manrope';cursor:pointer}
+.btn.on{background:var(--gold);color:#1a1a00;border-color:var(--gold)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.prod img{width:100%;height:120px;object-fit:cover;border-radius:16px}
+.prod b{font-size:15px;margin-top:6px}
+.org h3{font-size:14px;font-weight:700;color:var(--gold);margin-top:14px}
+.org p{font-weight:300;font-size:16px}
+/* login */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;place-items:center;z-index:50;padding:22px}
+.modal.show{display:grid}
+.box{width:100%;max-width:380px;border-radius:32px;padding:26px}
+.box input[type=text],.box input[type=password]{width:100%;padding:14px 16px;margin:10px 0;border-radius:18px;border:1px solid var(--line);background:rgba(255,255,255,.08);color:var(--txt);font:400 16px 'Manrope';outline:0}
+.box label{font-size:14px;font-weight:300;display:flex;gap:8px;align-items:center;margin:6px 0 14px}
+.box .row2{display:flex;gap:10px}
 </style>
 </head>
 <body>
-<div id="bg"></div>
-
-<div id="app">
-  <!-- HEADER + user icon -->
-  <div id="header">
-    <div id="brand"><span class="n">Marzenego</span><span class="r">Riverside</span></div>
-    <div id="userBtn" class="glass" onclick="openUser()" title="Account" role="button" aria-label="Account"></div>
-  </div>
-
-  <!-- NAV BAR -->
-  <nav id="nav" aria-label="Sezioni">
-    <div class="tab active" data-page="homePage">Home</div>
-    <div class="tab" data-page="calendarPage">Calendario</div>
-    <div class="tab" data-page="eventiPage">Prossimi eventi</div>
-    <div class="tab" data-page="lavoroPage">Lavora con noi</div>
-    <div class="tab" data-page="shopPage">Shop</div>
-    <div class="tab" data-page="chiSiamoPage">Chi siamo</div>
-  </nav>
-
-  <!-- HOME -->
-  <section id="homePage" class="page active">
-    <div class="nextWrap mainWrap glass" style="padding:0">
-      <div class="viewport" id="vp">
-        <div class="track" id="track">
-          <!-- A) Bacheca -->
-          <div class="slide">
-            <div class="head">
-              <img class="logo" alt="Marzenego Riverside" src="Marzenego.png" onerror="this.onerror=null;this.src='https://raw.githubusercontent.com/MarzenegoRiverside/MarzenegoWebpage/refs/heads/main/Marzenego.png'">
-              <div><div class="h1">Home Page</div><div class="sub">Scorri le sezioni</div></div>
-            </div>
-            <div class="lead">Troverai la nostra sezione dedicata ai risultati, alle news e i collegamenti esterni</div>
-            <div class="pinsTitle">Bacheca:</div>
-            <div id="pins"><div class="empty">Caricamento…</div></div>
-          </div>
-          <!-- B) News dal fiume -->
-          <div class="slide">
-            <div class="h1">News dal fiume</div>
-            <div class="list" id="newsList"><div class="empty">Caricamento…</div></div>
-          </div>
-          <!-- C) Ultimi risultati -->
-          <div class="slide">
-            <div class="h1">Ultimi risultati</div>
-            <div class="list" id="resList"><div class="empty">Caricamento…</div></div>
-          </div>
-        </div>
-        <div class="dots" id="dots"><span class="dot on"></span><span class="dot"></span><span class="dot"></span></div>
-      </div>
-      <div class="nextBar glass" id="nextBar" style="border-top:none">Next: News dal Fiume</div>
-    </div>
-
-    <!-- CARD SECONDARIA (mini calendario + prossimo appuntamento) -->
-    <div class="secCard glass">
-      <div class="days" id="days"></div>
-      <div class="secNext" id="secNext">Next: …</div>
-    </div>
-  </section>
-
-  <!-- Altre sezioni: design non ancora fornito nella specifica -->
-  <section id="calendarPage" class="page"><div class="soon glass"><div class="h1">Calendario</div></div></section>
-  <section id="eventiPage" class="page"><div class="soon glass"><div class="h1">Prossimi eventi</div></div></section>
-  <section id="lavoroPage" class="page"><div class="soon glass"><div class="h1">Lavora con noi</div></div></section>
-  <section id="shopPage" class="page"><div class="soon glass"><div class="h1">Shop</div></div></section>
-  <section id="chiSiamoPage" class="page"><div class="soon glass"><div class="h1">Chi siamo</div></div></section>
+<div class="bg"></div>
+<div class="app">
+  <header class="hdr">
+    <div class="brand"><b>Marzenego</b><i>Riverside</i></div>
+    <div class="user glass" id="user" onclick="onUser()"></div>
+  </header>
+  <nav class="nav" id="nav"></nav>
+  <main id="view"></main>
 </div>
 
-<!-- Modale login / account utente -->
-<div id="modal" onclick="if(event.target===this)closeModal()">
-  <div class="box glass" id="modalBox"></div>
+<div class="modal" id="loginModal" onclick="if(event.target===this)this.classList.remove('show')">
+  <div class="box glass" style="background:rgba(10,40,18,.78)">
+    <h1 style="font-size:26px">Accedi</h1>
+    <input type="text" id="lu" placeholder="Username" autocomplete="username">
+    <input type="password" id="lp" placeholder="Password" autocomplete="current-password">
+    <label><input type="checkbox" id="lr" checked> Resta collegato</label>
+    <div class="row2"><button class="btn" onclick="document.getElementById('loginModal').classList.remove('show')">Annulla</button><button class="btn on" onclick="loginPlayer()">Entra</button></div>
+  </div>
+</div>
+<div class="modal" id="profModal" onclick="if(event.target===this)this.classList.remove('show')">
+  <div class="box glass" style="background:rgba(10,40,18,.78)">
+    <h1 style="font-size:26px" id="profName"></h1>
+    <p class="sub" style="margin:8px 0 18px" id="profUser"></p>
+    <button class="btn on" onclick="logout()">Esci</button>
+  </div>
 </div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getFirestore, collection, getDocs, setDoc, getDoc, doc, query, where } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-// Stesso progetto Firebase dell'app attuale
+// Stesso progetto Firebase dell'app attuale (nessuna modifica a collection/campi)
 const app = initializeApp({
   apiKey: "AIzaSyCvqU28XLWRsfJUso0MuS72O2Qxks-MFP0",
   authDomain: "marzenego-2e266.firebaseapp.com",
@@ -213,166 +132,192 @@ const app = initializeApp({
   storageBucket: "marzenego-2e266.appspot.com"
 });
 const db = getFirestore(app);
+
 const $ = id => document.getElementById(id);
-const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const get = async n => { const s = await getDocs(collection(db, n)); return s.docs.map(d => ({ id: d.id, ...d.data() })); };
+const byDateDesc = (a, b) => String(b.data || "").localeCompare(String(a.data || ""));
+const ddmm = iso => { const [y, m, d] = String(iso).split("-"); return d + "/" + m; };
 
-/* ───────── NAVIGAZIONE ───────── */
-window.showPage = function (id) {
-  document.querySelectorAll(".page").forEach(p => p.classList.toggle("active", p.id === id));
-  document.querySelectorAll("#nav .tab").forEach(t => {
-    const on = t.dataset.page === id;
-    t.classList.toggle("active", on);
-    if (on) t.scrollIntoView({ inline: "center", block: "nearest", behavior: "smooth" });
-  });
+// ── Sessione (stessa chiave e formato del vecchio index) ──
+const SK = "mzr_session";
+let player = null;
+function readSession() { try { return JSON.parse(localStorage.getItem(SK) || sessionStorage.getItem(SK)); } catch (e) { return null; } }
+function saveSession(d, persist) {
+  try { localStorage.removeItem(SK); sessionStorage.removeItem(SK); (persist ? localStorage : sessionStorage).setItem(SK, JSON.stringify(d)); } catch (e) {}
+}
+function renderUser() {
+  const u = $("user");
+  if (!player) { u.className = "user glass"; u.innerHTML = '<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4.2"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7z"/></svg>'; return; }
+  u.className = "user on";
+  const foto = player.foto || player.photoURL;
+  if (foto) { u.innerHTML = `<img src="${esc(foto)}" alt="">`; return; }
+  const p = String(player.nome || player.username || "?").trim().split(/\s+/);
+  u.textContent = ((p[0] || "")[0] + (p.length > 1 ? p[p.length - 1][0] : "")).toUpperCase();
+}
+window.onUser = () => {
+  if (!player) return $("loginModal").classList.add("show");
+  $("profName").textContent = player.nome || player.username;
+  $("profUser").textContent = player.username || "";
+  $("profModal").classList.add("show");
 };
-document.querySelectorAll("#nav .tab").forEach(t => t.addEventListener("click", () => showPage(t.dataset.page)));
-
-/* ───────── SESSIONE (compatibile con "mzr_session" dell'app attuale) ───────── */
-const SESSION_KEY = "mzr_session";
-let currentPlayer = null;
-function readSession() {
-  try { return JSON.parse(localStorage.getItem(SESSION_KEY) || sessionStorage.getItem(SESSION_KEY) || "null"); } catch (e) { return null; }
-}
-function saveSession(data, persist) {
+window.loginPlayer = async () => {
+  const username = $("lu").value.trim(), password = $("lp").value.trim();
+  if (!username || !password) return alert("Inserisci username e password");
   try {
-    localStorage.removeItem(SESSION_KEY); sessionStorage.removeItem(SESSION_KEY);
-    (persist ? localStorage : sessionStorage).setItem(SESSION_KEY, JSON.stringify(data));
-  } catch (e) {}
-}
-function clearSession() { try { localStorage.removeItem(SESSION_KEY); sessionStorage.removeItem(SESSION_KEY); } catch (e) {} }
-
-const USER_SVG = '<svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>';
-function renderUserIcon() {
-  const b = $("userBtn");
-  if (!currentPlayer) { b.classList.remove("on"); b.innerHTML = USER_SVG; return; }
-  b.classList.add("on");
-  if (currentPlayer.foto) { b.innerHTML = `<img src="${esc(currentPlayer.foto)}" alt="">`; return; }
-  const p = (currentPlayer.nome || currentPlayer.username || "?").trim().split(/\s+/);
-  b.textContent = (p.length >= 2 ? p[0][0] + p[p.length - 1][0] : p[0].slice(0, 2)).toUpperCase();
-}
-function applyPlayer(d) {
-  currentPlayer = { username: d.username, nome: d.nome, foto: d.foto || d.fotoProfilo || "", ruolo: d.ruolo || "", permissions: d.permissions || null };
-  renderUserIcon();
-}
-
-/* Login utente (stessa logica/collection "utenti" dell'app attuale) */
-window.openUser = function () {
-  const box = $("modalBox");
-  if (currentPlayer) {
-    box.innerHTML = `<h2>Ciao!</h2><div class="who">${esc(currentPlayer.nome || currentPlayer.username)}</div>
-      <button class="btn s" onclick="doLogout()">Esci</button>
-      <button class="btn s" style="margin-top:8px" onclick="closeModal()">Chiudi</button>`;
-  } else {
-    box.innerHTML = `<h2>Accedi</h2>
-      <input id="lu" type="text" placeholder="Username" autocomplete="username" autocapitalize="none">
-      <input id="lp" type="password" placeholder="Password" autocomplete="current-password">
-      <label><input type="checkbox" id="lr"> Resta collegato</label>
-      <div class="err" id="lerr"></div>
-      <button class="btn p" onclick="doLogin()">Accedi</button>
-      <button class="btn s" style="margin-top:8px" onclick="closeModal()">Annulla</button>`;
-  }
-  $("modal").classList.add("show");
-};
-window.closeModal = () => $("modal").classList.remove("show");
-window.doLogin = async function () {
-  const u = $("lu").value.trim(), p = $("lp").value.trim();
-  if (!u || !p) { $("lerr").textContent = "Inserisci username e password"; return; }
-  try {
-    const snap = await getDocs(query(collection(db, "utenti"), where("username", "==", u), where("password", "==", p)));
-    if (snap.empty) { $("lerr").textContent = "Credenziali errate"; return; }
+    const snap = await getDocs(query(collection(db, "utenti"), where("username", "==", username), where("password", "==", password)));
+    if (snap.empty) return alert("Credenziali errate");
     const d = snap.docs[0].data();
-    applyPlayer(d);
+    player = { type: "player", username: d.username, nome: d.nome, ruolo: d.ruolo || "", permissions: d.permissions || null, foto: d.foto || d.photoURL || "" };
     saveSession({ type: "player", username: d.username, nome: d.nome, ruolo: d.ruolo || "", permissions: d.permissions || null }, $("lr").checked);
-    closeModal();
-  } catch (e) { $("lerr").textContent = "Errore: " + e.message; }
+    $("loginModal").classList.remove("show"); $("lu").value = $("lp").value = "";
+    renderUser(); show(cur);
+  } catch (e) { alert("Errore: " + e.message); }
 };
-window.doLogout = function () { currentPlayer = null; clearSession(); renderUserIcon(); closeModal(); };
+window.logout = () => {
+  player = null; try { localStorage.removeItem(SK); sessionStorage.removeItem(SK); } catch (e) {}
+  $("profModal").classList.remove("show"); renderUser(); show(cur);
+};
 
-/* ───────── CAROSELLO CARD PRINCIPALE (swipe, ciclico) ───────── */
-const NAMES = ["Bacheca", "News dal Fiume", "Ultimi Risultati"];
-let idx = 0;
-const track = $("track"), vp = $("vp");
-function goTo(i) {
-  idx = (i + NAMES.length) % NAMES.length;
-  track.style.transform = `translateX(${-idx * 100}%)`;
-  document.querySelectorAll("#dots .dot").forEach((d, n) => d.classList.toggle("on", n === idx));
-  $("nextBar").textContent = "Next: " + NAMES[(idx + 1) % NAMES.length];
+// ── Navigazione (6 sezioni, scroll orizzontale) ──
+const SECTIONS = ["Home", "Calendario", "Prossimi eventi", "Lavora con noi", "Shop", "Chi siamo"];
+let cur = "Home";
+$("nav").innerHTML = SECTIONS.map(s => `<a data-s="${s}">${s}</a>`).join("");
+$("nav").onclick = e => { const a = e.target.closest("a"); if (a) show(a.dataset.s); };
+
+// ── Componenti ──
+const card = (slides, nexts) => `
+  <div class="card">
+    <div class="back"><span class="next">${nexts[0] ? "Next: " + esc(nexts[0]) : ""}</span></div>
+    <div class="front glass">
+      <div class="track">${slides.map(s => `<div class="slide">${s}</div>`).join("")}</div>
+      ${slides.length > 1 ? `<div class="dots">${slides.map((_, i) => `<span class="${i ? "" : "on"}"></span>`).join("")}</div>` : ""}
+    </div>
+  </div>`;
+// Swipe orizzontale (touch + mouse) con loop: dopo l'ultima card si torna alla prima
+function wireCard(nexts) {
+  const tr = document.querySelector(".card .track"); if (!tr) return;
+  const n = tr.children.length; if (n < 2) return;
+  const front = tr.parentElement, dots = front.querySelectorAll(".dots span"), nx = document.querySelector(".card .next");
+  let i = 0, x0 = 0, y0 = 0, dx = 0, mode = null, id = null;
+  const apply = anim => {
+    tr.style.transition = anim ? "transform .3s ease" : "none";
+    tr.style.transform = `translateX(calc(${-i * 100}% + ${dx}px))`;
+  };
+  const go = k => {
+    i = (k + n) % n; dx = 0; apply(true);
+    dots.forEach((d, j) => d.classList.toggle("on", j === i));
+    if (nx && nexts[i]) nx.textContent = "Next: " + nexts[i];
+  };
+  front.addEventListener("pointerdown", e => { id = e.pointerId; x0 = e.clientX; y0 = e.clientY; dx = 0; mode = null; });
+  front.addEventListener("pointermove", e => {
+    if (e.pointerId !== id) return;
+    const mx = e.clientX - x0, my = e.clientY - y0;
+    if (!mode && (Math.abs(mx) > 8 || Math.abs(my) > 8)) {
+      mode = Math.abs(mx) > Math.abs(my) ? "h" : "v";
+      if (mode === "h") { try { front.setPointerCapture(id); } catch (err) {} }
+    }
+    if (mode === "h") { dx = mx; apply(false); }
+  });
+  const end = e => {
+    if (e.pointerId !== id) return; id = null;
+    if (mode === "h") { const th = Math.min(60, front.clientWidth / 5); go(dx < -th ? i + 1 : dx > th ? i - 1 : i); }
+    mode = null;
+  };
+  front.addEventListener("pointerup", end);
+  front.addEventListener("pointercancel", end);
 }
-let sx = 0, sy = 0, dx = 0, dragging = false, locked = null;
-vp.addEventListener("pointerdown", e => { dragging = true; sx = e.clientX; sy = e.clientY; dx = 0; locked = null; });
-vp.addEventListener("pointermove", e => {
-  if (!dragging) return;
-  dx = e.clientX - sx;
-  const dy = e.clientY - sy;
-  if (locked === null && (Math.abs(dx) > 8 || Math.abs(dy) > 8)) locked = Math.abs(dx) > Math.abs(dy);
-  if (locked) { track.classList.add("drag"); track.style.transform = `translateX(calc(${-idx * 100}% + ${dx}px))`; }
-});
-const endDrag = () => {
-  if (!dragging) return; dragging = false; track.classList.remove("drag");
-  if (locked && Math.abs(dx) > 50) goTo(idx + (dx < 0 ? 1 : -1)); else goTo(idx);
-};
-vp.addEventListener("pointerup", endDrag); vp.addEventListener("pointercancel", endDrag); vp.addEventListener("pointerleave", endDrag);
-
-/* ───────── CARD SECONDARIA: mini calendario ───────── */
-const DOW = ["D", "L", "M", "M", "G", "V", "S"];
-function renderDays() {
-  const t = new Date(), h = [];
-  for (let i = -2; i <= 3; i++) {
-    const d = new Date(t.getFullYear(), t.getMonth(), t.getDate() + i);
-    h.push(`<div class="day${i === 0 ? " today" : ""}"><span>${DOW[d.getDay()]}</span><span>${d.getDate()}</span></div>`);
+const secondary = (ev) => {
+  const t = new Date(); t.setHours(0, 0, 0, 0);
+  const L = ["D", "L", "M", "M", "G", "V", "S"];
+  let days = "";
+  for (let k = -2; k <= 3; k++) {
+    const d = new Date(t); d.setDate(t.getDate() + k);
+    days += `<div class="day ${k === 0 ? "today" : ""}"><span>${L[d.getDay()]}</span><span>${d.getDate()}</span></div>`;
   }
-  $("days").innerHTML = h.join("");
-}
-async function loadNextEvent() {
-  try {
-    const snap = await getDocs(collection(db, "eventi"));
-    const now = new Date(), list = [];
-    snap.forEach(s => { const d = s.data(); if (!d.data) return;
-      const when = new Date(d.data + "T" + (d.ora || "00:00"));
-      if (!isNaN(when) && when >= now) list.push({ when, tipo: d.tipo || "Evento", data: d.data }); });
-    list.sort((a, b) => a.when - b.when);
-    if (!list.length) { $("secNext").textContent = "Next: nessun appuntamento"; return; }
-    const [y, m, g] = list[0].data.split("-");
-    $("secNext").textContent = `Next: ${list[0].tipo} ${g}/${m}`;
-  } catch (e) { $("secNext").textContent = "Next: —"; }
+  return `<div class="card sec"><div class="back"><span class="next">${ev ? "Next: " + esc(ev.tipo) + " " + ddmm(ev.data) : ""}</span></div><div class="front glass"><div class="days">${days}</div></div></div>`;
+};
+
+let eventiCache = null;
+async function eventi() { return eventiCache || (eventiCache = (await get("eventi")).sort((a, b) => (a.data + (a.ora || "")).localeCompare(b.data + (b.ora || "")))); }
+const todayIso = () => { const d = new Date(); return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); };
+const nextEvent = async () => (await eventi()).find(e => e.data >= todayIso());
+
+// ── Viste ──
+const views = {
+  async Home() {
+    const [nov, news, ris, ne] = await Promise.all([get("novita"), get("news"), get("risultati"), nextEvent()]);
+    nov.sort(byDateDesc); news.sort(byDateDesc); ris.sort(byDateDesc);
+    const s1 = `<div class="bhead"><img src="Marzenego.png" alt="MRZRS"><div><h1>Home Page</h1><div class="sub">Scorri le sezioni</div></div></div>
+      <p class="lead">Troverai la nostra sezione dedicata ai risultati, alle news e i collegamenti esterni</p>
+      <div class="lbl">Bacheca:</div>${nov.slice(0, 3).map(n => `<p class="pin">“${esc(n.titolo)}”</p>`).join("") || '<p class="empty">Nessuna novità al momento</p>'}`;
+    const s2 = `<h1 style="margin:14px 0 34px">News dal fiume</h1>${news.slice(0, 3).map(n => `<div class="row"><div class="t"><b>${esc(n.titolo)}</b><span class="s">${esc(n.testo)}</span></div>${n.img ? `<img src="${esc(n.img)}" alt="">` : ""}</div>`).join("") || '<p class="empty">Nessuna news</p>'}`;
+    const s3 = `<h1 style="margin:14px 0 34px">Ultimi risultati</h1>${ris.slice(0, 3).map(r => {
+      const c = r.esito === "V" ? "W" : r.esito === "P" ? "L" : "D";
+      return `<div class="row"><div class="t"><b>${esc(r.avversario)}</b><span class="s">${esc(r.nostri)} - ${esc(r.loro)}</span></div><div class="esito ${c}">${c}</div></div>`;
+    }).join("") || '<p class="empty">Nessun risultato</p>'}`;
+    const nexts = ["News dal Fiume", "Ultimi Risultati", "Bacheca"];
+    return { html: card([s1, s2, s3], nexts) + secondary(ne), nexts };
+  },
+  async Calendario() {
+    const [ev, ne] = [await eventi(), await nextEvent()];
+    const items = ev.filter(e => e.data >= todayIso()).map(e => `<div class="item" data-id="${e.id}"><b>${esc(e.tipo)}${e.luogo ? " - " + esc(e.luogo) : ""}</b><small>${ddmm(e.data)} · ${esc(e.ora || "")}${e.note ? "\n" + esc(e.note) : ""}</small>${player ? `<div class="vote"><button class="btn" data-v="presente">Presente</button><button class="btn" data-v="assente">Assente</button></div>` : ""}</div>`).join("") || '<p class="empty">Nessun evento in programma</p>';
+    return { html: card([`<h1 style="margin:14px 0 18px">Calendario</h1>${items}`], []) + secondary(ne), after: wireVotes };
+  },
+  async "Prossimi eventi"() {
+    const [ex, ne] = [await get("eventiExtra"), await nextEvent()];
+    const items = ex.map(e => `<div class="item"><b>${esc(e.testo)}</b></div>`).join("") || '<p class="empty">Nessun evento in programma</p>';
+    return { html: card([`<h1 style="margin:14px 0 18px">Prossimi eventi</h1>${items}`], []) + secondary(ne) };
+  },
+  async "Lavora con noi"() {
+    const [p, ne] = [await get("posizioni"), await nextEvent()];
+    const items = p.map(e => `<div class="item"><b>${esc(e.testo)}</b></div>`).join("") || '<p class="empty">Nessuna posizione aperta</p>';
+    return { html: card([`<h1 style="margin:14px 0 18px">Lavora con noi</h1>${items}`], []) + secondary(ne) };
+  },
+  async Shop() {
+    const [p, ne] = [await get("prodotti"), await nextEvent()];
+    const items = `<div class="grid">${p.map(d => `<div class="prod"><img src="${esc(d.img)}" alt=""><b>${esc(d.nome)}</b><small style="display:block;color:var(--gold);font-weight:700">€ ${esc(d.prezzo || "-")}</small></div>`).join("")}</div>`;
+    return { html: card([`<h1 style="margin:14px 0 18px">Shop</h1>${p.length ? items : '<p class="empty">Nessun prodotto</p>'}`], []) + secondary(ne) };
+  },
+  async "Chi siamo"() {
+    const [o, ne] = [await get("organigramma"), await nextEvent()];
+    const L = { presidente: "Presidente", tesoreria: "Tesoreria", manutenzione: "Manutenzione campo", dirigenti: "Dirigenti", social: "Social team", marketing: "Marketing & Fashion", planning: "Planning special events" };
+    const items = o.map(r => `<h3>${esc(L[r.id] || r.id)}</h3><p>${(r.nomi || []).map(esc).join("<br>")}</p>`).join("");
+    return { html: card([`<h1 style="margin:14px 0 18px">Chi siamo</h1><div class="org">${items || '<p class="empty">—</p>'}</div>`], []) + secondary(ne) };
+  }
+};
+
+// Presenze: stesso formato doc/campi del vecchio index (presenze/{eventoId}_{username})
+async function wireVotes() {
+  document.querySelectorAll(".item[data-id]").forEach(async el => {
+    const id = el.dataset.id, btns = el.querySelectorAll(".btn[data-v]");
+    if (!btns.length) return;
+    const mark = st => btns.forEach(b => b.classList.toggle("on", b.dataset.v === st));
+    try { const s = await getDoc(doc(db, "presenze", id + "_" + player.username)); if (s.exists()) mark(s.data().stato); } catch (e) {}
+    btns.forEach(b => b.onclick = async () => {
+      await setDoc(doc(db, "presenze", id + "_" + player.username), { eventoId: id, username: player.username, nome: player.nome, stato: b.dataset.v, timestamp: Date.now() });
+      mark(b.dataset.v);
+    });
+  });
 }
 
-/* ───────── DATI HOME (stesse collection: novita, news, risultati) ───────── */
-async function fetchSorted(name) {
-  const snap = await getDocs(collection(db, name)), out = [];
-  snap.forEach(s => out.push({ id: s.id, ...s.data() }));
-  return out.sort((a, b) => String(b.data || "").localeCompare(String(a.data || "")));
-}
-async function loadBacheca() {
+async function show(name) {
+  cur = name;
+  document.querySelectorAll("#nav a").forEach(a => a.classList.toggle("act", a.dataset.s === name));
+  $("view").innerHTML = "";
   try {
-    const items = (await fetchSorted("novita")).slice(0, 3);
-    $("pins").innerHTML = items.length ? items.map(d => `<div class="pin">“${esc(d.titolo)}”</div>`).join("") : '<div class="empty">Nessuna novità al momento</div>';
-  } catch (e) { $("pins").innerHTML = '<div class="empty">Impossibile caricare la bacheca</div>'; }
-}
-async function loadNews() {
-  try {
-    const items = (await fetchSorted("news")).slice(0, 3);
-    $("newsList").innerHTML = items.length ? items.map(d => {
-      const img = d.img || d.immagine || d.foto || "";
-      return `<div class="news"><div class="tx"><div class="t">${esc(d.titolo)}</div><div class="b">${esc(d.testo || "")}</div></div>${img ? `<img src="${esc(img)}" alt="" loading="lazy">` : ""}</div>`;
-    }).join("") : '<div class="empty">Nessuna news al momento</div>';
-  } catch (e) { $("newsList").innerHTML = '<div class="empty">Impossibile caricare le news</div>'; }
-}
-async function loadRisultati() {
-  try {
-    const items = (await fetchSorted("risultati")).slice(0, 3);
-    $("resList").innerHTML = items.length ? items.map(d => {
-      const L = d.esito === "V" ? "W" : d.esito === "P" ? "L" : "D";
-      return `<div class="res"><div><div class="t">${esc(d.avversario)}</div><div class="b">${esc(d.nostri)} – ${esc(d.loro)}</div></div><div class="badge glass ${L}">${L}</div></div>`;
-    }).join("") : '<div class="empty">Nessun risultato al momento</div>';
-  } catch (e) { $("resList").innerHTML = '<div class="empty">Impossibile caricare i risultati</div>'; }
+    const r = await views[name]();
+    if (cur !== name) return;
+    $("view").innerHTML = r.html;
+    wireCard(r.nexts || []);
+    r.after && r.after();
+  } catch (e) { console.error(e); $("view").innerHTML = '<div class="card"><div class="front glass"><div class="slide"><p class="empty">Impossibile caricare i dati.</p></div></div></div>'; }
 }
 
-/* ───────── AVVIO ───────── */
-const s = readSession();
-if (s && s.type === "player" && s.username) applyPlayer(s); else renderUserIcon();
-renderDays(); goTo(0);
-loadBacheca(); loadNews(); loadRisultati(); loadNextEvent();
+player = readSession();
+if (player && player.type !== "player") player = null; // l'accesso admin resta nella vecchia app
+renderUser();
+show("Home");
 </script>
 </body>
 </html>
