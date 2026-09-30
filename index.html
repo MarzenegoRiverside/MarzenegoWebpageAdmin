@@ -3,321 +3,295 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0a2a12">
 <title>Marzenego Riverside</title>
 <link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0a2a12">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Manrope:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--txt:#EEF3E8;--gold:#F4C430;--green:#1E7A3A;--glass:rgba(255,255,255,.09);--line:rgba(255,255,255,.28)}
+:root{--ac:#F4C430;--tx:#EEF3E8;--g:#1E7A3A}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html,body{height:100%}
-body{font-family:'Manrope',sans-serif;color:var(--txt);background:#000;overflow-x:hidden}
-/* sfondo: se presente sfondo.jpg viene usato, altrimenti gradienti equivalenti */
+html{background:#000;min-height:100%}body{min-height:100vh;background:transparent;color:var(--tx);font-family:'Manrope',sans-serif}
 .bg{position:fixed;inset:0;z-index:-1;background:
- url("sfondo.jpg") center/cover no-repeat,
- radial-gradient(circle at 12% 40%,rgba(160,130,25,.95) 0,rgba(160,130,25,0) 38%),
- radial-gradient(circle at 75% 12%,rgba(50,135,60,.95) 0,rgba(50,135,60,0) 48%),
- radial-gradient(circle at 20% 80%,rgba(30,110,50,.9) 0,rgba(30,110,50,0) 45%),
- #020802}
-.app{max-width:440px;margin:0 auto;min-height:100%;padding:calc(env(safe-area-inset-top,0px) + 22px) 28px calc(env(safe-area-inset-bottom,0px) + 24px);display:flex;flex-direction:column}
-/* header */
-.hdr{display:flex;align-items:flex-start;justify-content:space-between;padding:0 4px}
-.brand{line-height:1}
-.brand b{display:block;font-weight:700;font-size:36px;letter-spacing:-.5px;color:var(--txt)}
-.brand i{display:block;font-family:'Alex Brush',cursive;font-style:normal;font-size:36px;color:var(--gold);margin-top:-8px;margin-left:-2px}
-.glass{background:linear-gradient(145deg,rgba(255,255,255,.16),rgba(255,255,255,.04));border:1px solid var(--line);backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%);box-shadow:inset 0 1px 0 rgba(255,255,255,.3),inset 0 -1px 0 rgba(255,255,255,.06),0 8px 24px rgba(0,0,0,.22)}
-.user{width:62px;height:62px;border-radius:50%;display:grid;place-items:center;cursor:pointer;border:1px solid var(--line);overflow:hidden;color:#fff;font:700 20px 'Manrope'}
-.user svg{width:30px;height:30px;fill:#fff}
-.user.on{background:var(--gold);color:#1a1a00;border-color:var(--gold)}
-.user img{width:100%;height:100%;object-fit:cover}
-/* nav */
-.nav{display:flex;gap:6px;overflow-x:auto;margin:16px -28px 0;padding:4px 28px;scrollbar-width:none}
-.nav::-webkit-scrollbar{display:none}
-.nav a{flex:none;padding:7px 14px;border-radius:20px;font-size:20px;font-weight:400;color:rgba(238,243,232,.6);cursor:pointer;border:1px solid transparent;white-space:nowrap}
-.nav a.act{color:var(--txt);font-weight:700;border-color:var(--line);background:linear-gradient(145deg,rgba(255,255,255,.2),rgba(255,255,255,.05));box-shadow:inset 0 1px 0 rgba(255,255,255,.3)}
-/* card a due livelli: box in secondo piano (piu' lungo) + box in primo piano */
-.card{position:relative;margin-top:20px;padding-bottom:44px}
-.card .back{position:absolute;left:0;right:0;top:60px;bottom:0;border-radius:36px;z-index:1;background:linear-gradient(165deg,rgba(255,255,255,.1),rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.26);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:inset 0 1px 0 rgba(255,255,255,.14)}
-.card .next{position:absolute;left:0;right:0;bottom:0;height:44px;display:flex;align-items:center;padding:0 24px;font-size:15px;font-weight:300;text-decoration:underline;color:rgba(238,243,232,.92);white-space:nowrap}
-.card.sec .next{text-decoration:none}
-.card .front{position:relative;z-index:2;border-radius:36px;overflow:hidden;touch-action:pan-y;user-select:none;-webkit-user-select:none}
-.card img{-webkit-user-drag:none;user-drag:none;pointer-events:none}
-.track{display:flex;will-change:transform;cursor:grab}
-.track:active{cursor:grabbing}
-.slide{flex:0 0 100%;min-width:0;padding:26px 24px 56px}
-.dots{position:absolute;left:0;right:0;bottom:16px;display:flex;justify-content:center;gap:7px;z-index:2}
-.dots span{width:13px;height:13px;border-radius:50%;border:1px solid rgba(255,255,255,.4);background:rgba(255,255,255,.14);transition:background .2s}
-.dots span.on{background:var(--gold);border-color:var(--gold)}
-h1{font-size:32px;font-weight:700;line-height:1.1}
-.sub{font-size:20px;font-weight:400;color:rgba(238,243,232,.85)}
-.lead{font-size:18px;font-weight:700;line-height:1.3;margin:22px 0 18px}
-.lbl{font-weight:700;font-size:15px;margin-bottom:6px}
-.pin{font-size:15px;font-weight:300;margin:0 0 12px;color:rgba(238,243,232,.85)}
-.bhead{display:flex;gap:18px;align-items:center}
-.bhead img{width:72px;height:auto;flex:none}
-.row{display:flex;align-items:center;gap:14px;margin:0 0 18px}
-.row .t{flex:1;min-width:0}
-.row b{display:block;font-size:17px;font-weight:700}
-.row span.s{display:block;font-size:17px;font-weight:300;color:rgba(238,243,232,.8);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.row img{width:84px;height:56px;object-fit:cover;border-radius:14px;flex:none}
-.esito{width:62px;height:62px;border-radius:50%;display:grid;place-items:center;font-size:30px;font-weight:700;border:1px solid var(--line);background:linear-gradient(145deg,rgba(255,255,255,.14),rgba(255,255,255,.02));flex:none}
-.W{color:var(--gold)}.D{color:#fff}.L{color:#ff3b3b}
-.empty{font-weight:300;opacity:.75;font-size:15px}
-/* card secondaria: mini calendario */
-.days{display:flex;justify-content:space-between;gap:7px;padding:16px 16px}
-.day{flex:1;height:66px;border-radius:22px;border:1px solid rgba(255,255,255,.2);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:15px;font-weight:300;color:rgba(238,243,232,.4);background:rgba(0,0,0,.14)}
-.day.today{background:var(--gold);border-color:var(--gold);color:#fff;font-weight:700}
-/* sezioni extra: lista dentro card */
-.item{padding:14px 0;border-bottom:1px solid rgba(255,255,255,.12)}
-.item:last-child{border:0}
-.item b{font-size:17px;display:block}
-.item small{font-weight:300;font-size:14px;opacity:.8;display:block;margin-top:2px;white-space:pre-wrap}
-.vote{display:flex;gap:8px;margin-top:10px}
-.btn{flex:1;padding:10px;border-radius:16px;border:1px solid var(--line);background:rgba(255,255,255,.08);color:var(--txt);font:700 14px 'Manrope';cursor:pointer}
-.btn.on{background:var(--gold);color:#1a1a00;border-color:var(--gold)}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.prod img{width:100%;height:120px;object-fit:cover;border-radius:16px}
-.prod b{font-size:15px;margin-top:6px}
-.org h3{font-size:14px;font-weight:700;color:var(--gold);margin-top:14px}
-.org p{font-weight:300;font-size:16px}
-/* login */
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;place-items:center;z-index:50;padding:22px}
-.modal.show{display:grid}
-.box{width:100%;max-width:380px;border-radius:32px;padding:26px}
-.box input[type=text],.box input[type=password]{width:100%;padding:14px 16px;margin:10px 0;border-radius:18px;border:1px solid var(--line);background:rgba(255,255,255,.08);color:var(--txt);font:400 16px 'Manrope';outline:0}
-.box label{font-size:14px;font-weight:300;display:flex;gap:8px;align-items:center;margin:6px 0 14px}
-.box .row2{display:flex;gap:10px}
+ radial-gradient(circle at 50% -8%,#1E7A3A 0,transparent 52%),
+ radial-gradient(circle at 105% 28%,rgba(46,140,60,.85) 0,transparent 45%),
+ radial-gradient(circle at -5% 38%,color-mix(in srgb,var(--ac) 70%,transparent) 0,transparent 48%),
+ radial-gradient(circle at 10% 82%,rgba(30,122,58,.75) 0,transparent 50%),#000;transition:background .4s}
+#app{max-width:430px;margin:0 auto;padding:max(18px,env(safe-area-inset-top)) 18px max(24px,env(safe-area-inset-bottom))}
+header{display:flex;justify-content:space-between;align-items:center;padding:0 6px}
+.brand{line-height:.8}.brand b{display:block;font-size:36px;font-weight:700;color:var(--tx)}
+.brand i{display:block;font-family:'Alex Brush',cursive;font-style:normal;font-size:36px;color:var(--ac);margin-top:-4px}
+.glass{background:linear-gradient(150deg,rgba(255,255,255,.2),rgba(255,255,255,.05));backdrop-filter:blur(18px) saturate(150%);-webkit-backdrop-filter:blur(18px) saturate(150%);border:1px solid rgba(255,255,255,.26);box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 8px 24px rgba(0,0,0,.25)}
+.usr{width:56px;height:56px;border-radius:50%;display:grid;place-items:center;border:0;cursor:pointer;color:#fff;overflow:hidden;font:600 20px 'Manrope'}
+.usr svg{width:28px;height:28px}.usr.lgd{background:var(--ac);color:#fff}.usr img{width:100%;height:100%;object-fit:cover}
+nav{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin:12px 0 14px;padding:2px}
+nav::-webkit-scrollbar{display:none}
+nav button{flex:none;background:none;border:1px solid transparent;border-radius:20px;color:var(--tx);opacity:.6;font:400 19px 'Manrope';padding:4px 14px;cursor:pointer;white-space:nowrap}
+nav button.on{opacity:1;font-weight:600;background:linear-gradient(150deg,rgba(255,255,255,.25),rgba(255,255,255,.06));border-color:rgba(255,255,255,.35)}
+.stack{position:relative;padding-bottom:40px;margin-bottom:14px}
+.stack.nb{padding-bottom:0}
+.back{position:absolute;inset:0;border-radius:34px;background:linear-gradient(150deg,rgba(255,255,255,.12),rgba(255,255,255,.03));border:1px solid rgba(255,255,255,.2);backdrop-filter:blur(14px);display:flex;align-items:flex-end;padding:0 24px 9px}
+.stack.tp{padding:30px 0 0}.stack.tp .back{align-items:flex-start;padding:8px 22px 0}
+.nx{font-size:14px;font-weight:300;text-decoration:underline;opacity:.8}.lab{font-size:12px;font-weight:300;letter-spacing:.3px;opacity:.75;text-transform:none}
+.front{position:relative;border-radius:34px}
+.sl{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;border-radius:34px}
+.sl::-webkit-scrollbar{display:none}
+.sl>section{flex:0 0 100%;scroll-snap-align:start;padding:22px 22px 4px;min-height:430px}
+.dots{display:flex;gap:8px;justify-content:center;padding:6px 0 14px}
+.dots i{width:13px;height:13px;border-radius:50%;border:1.5px solid rgba(255,255,255,.4);background:rgba(255,255,255,.12)}.dots i.on{background:var(--ac);border-color:var(--ac)}
+.h{display:flex;gap:14px;align-items:center;margin-bottom:18px}.lg{width:64px;height:auto;flex:none}
+.t{font-size:32px;font-weight:700;line-height:1.1}.st{font-size:20px;font-weight:400;opacity:.8;margin-top:2px}
+.b18{font-size:18px;font-weight:700;line-height:1.35;margin:22px 4px 18px}
+.s{font-size:15px;font-weight:700;margin:0 4px 4px}.li{font-size:15px;font-weight:300;opacity:.9;margin:0 4px 8px}
+.row{display:flex;align-items:center;gap:12px;margin:0 4px 14px}.row>div:first-child{flex:1;min-width:0}
+.row b{display:block;font-size:17px;font-weight:600}.row span{font-size:16px;font-weight:300;opacity:.85}
+.row img{width:84px;height:56px;border-radius:14px;object-fit:cover}
+.wl{width:54px;height:54px;border-radius:50%;display:grid;place-items:center;font-size:26px;font-weight:600;flex:none}
+.wl.W{color:var(--ac)}.wl.L{color:#ff3b3b}
+.wk{display:flex;gap:6px;justify-content:center;padding:14px 12px}
+.dy{width:40px;height:56px;border-radius:20px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.05);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:14px;opacity:.55}
+.dy b{font-weight:400}.dy.on{background:var(--ac);border-color:var(--ac);color:#fff;opacity:1}.dy.on b{font-weight:800}
+.lnk{text-decoration:underline;cursor:pointer;font-weight:300;font-size:15px;background:none;border:0;color:var(--tx);font-family:inherit;display:block;margin:0 4px 8px;opacity:.9}
+.pill{display:inline-block;border-radius:16px;border:1px solid rgba(255,255,255,.3);background:color-mix(in srgb,var(--ac) 38%,transparent);color:var(--tx);font:600 13px 'Manrope';padding:4px 14px;cursor:pointer;text-align:center}
+.pill.off{background:rgba(255,255,255,.06);font-weight:400;opacity:.8}
+.pill.ok{background:rgba(30,122,58,.75)}.pill.ko{background:rgba(150,30,30,.8)}.pill.wt{background:rgba(255,255,255,.12)}
+.btn{display:block;width:100%;border-radius:22px;border:1px solid rgba(255,255,255,.3);background:color-mix(in srgb,var(--ac) 45%,transparent);color:var(--tx);font:700 17px 'Manrope';padding:12px;cursor:pointer;margin:12px 0}
+.in{width:100%;border-radius:22px;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.08);color:var(--tx);font:400 17px 'Manrope';padding:12px 18px;margin-bottom:10px;outline:0}
+.in::placeholder{color:rgba(238,243,232,.6)}
+.ck{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:400;margin:6px 4px;cursor:pointer}
+.ck input{appearance:none;width:16px;height:16px;border-radius:50%;border:1px solid rgba(255,255,255,.4);background:rgba(255,255,255,.12)}
+.ck input:checked{background:var(--ac);border-color:var(--ac)}
+.tg{width:48px;height:20px;border-radius:12px;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.08);position:relative;flex:none}
+.tg i{position:absolute;top:2px;left:3px;width:14px;height:14px;border-radius:50%;border:1px solid rgba(255,255,255,.5)}
+.tc{width:48px;height:20px;border-radius:12px;background:var(--ac);border:0;cursor:pointer}
+.cm{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:10px;position:relative}
+.cm b{font-size:19px;font-weight:700}.cm .pill{width:28px;padding:1px 0;font-size:16px;border-radius:10px}
+.cg{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+.c{aspect-ratio:1/1.25;border-radius:11px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.06);font-size:11px;padding:3px 4px;line-height:1.05;display:flex;flex-direction:column}
+.c.o{opacity:.4}.c span{font-weight:400}.c small{font-size:8px;font-weight:600;margin-top:auto;color:#fff}
+.c.ev{background:var(--ac);border-color:var(--ac);cursor:pointer;color:#fff}.c.ev span{font-weight:700}
+.c.td{box-shadow:inset 0 0 0 2px rgba(255,255,255,.55);background:rgba(255,255,255,.22)}
+.ov{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.55);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);display:flex;align-items:center;justify-content:center;padding:18px}
+.mc{width:100%;max-width:394px}.mc .front{padding:22px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0}
+.vt{display:flex;gap:10px;padding:10px 14px}.vt .pill{flex:1;padding:8px;font-size:15px}
+.vt .pill.ok.sel{background:#1f7a3a}.vt .pill.ko.sel{background:#9a2424}
+.ar{text-align:left}
+@media(min-width:700px){#app{padding-top:30px}}
 </style>
 </head>
 <body>
 <div class="bg"></div>
-<div class="app">
-  <header class="hdr">
-    <div class="brand"><b>Marzenego</b><i>Riverside</i></div>
-    <div class="user glass" id="user" onclick="onUser()"></div>
-  </header>
-  <nav class="nav" id="nav"></nav>
-  <main id="view"></main>
+<div id="app">
+ <header><div class="brand"><b>Marzenego</b><i>Riverside</i></div><button class="usr glass" id="usr" data-a="user"></button></header>
+ <nav id="nav"></nav>
+ <main id="main"></main>
 </div>
-
-<div class="modal" id="loginModal" onclick="if(event.target===this)this.classList.remove('show')">
-  <div class="box glass" style="background:rgba(10,40,18,.78)">
-    <h1 style="font-size:26px">Accedi</h1>
-    <input type="text" id="lu" placeholder="Username" autocomplete="username">
-    <input type="password" id="lp" placeholder="Password" autocomplete="current-password">
-    <label><input type="checkbox" id="lr" checked> Resta collegato</label>
-    <div class="row2"><button class="btn" onclick="document.getElementById('loginModal').classList.remove('show')">Annulla</button><button class="btn on" onclick="loginPlayer()">Entra</button></div>
-  </div>
-</div>
-<div class="modal" id="profModal" onclick="if(event.target===this)this.classList.remove('show')">
-  <div class="box glass" style="background:rgba(10,40,18,.78)">
-    <h1 style="font-size:26px" id="profName"></h1>
-    <p class="sub" style="margin:8px 0 18px" id="profUser"></p>
-    <button class="btn on" onclick="logout()">Esci</button>
-  </div>
-</div>
-
+<input type="file" id="foto" accept="image/*" hidden>
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, collection, getDocs, setDoc, getDoc, doc, query, where } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import {getFirestore,collection,getDocs,addDoc,doc,setDoc,getDoc,updateDoc,query,where} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+const db=getFirestore(initializeApp({apiKey:"AIzaSyCvqU28XLWRsfJUso0MuS72O2Qxks-MFP0",authDomain:"marzenego-2e266.firebaseapp.com",projectId:"marzenego-2e266",storageBucket:"marzenego-2e266.appspot.com"}));
+const $=(s,r=document)=>r.querySelector(s);
+const E=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const SK="mzr_session",LOGO="Marzenego.png",LOGOF="https://raw.githubusercontent.com/MarzenegoRiverside/MarzenegoWebpage/refs/heads/main/Marzenego.png";
+const TEAM="https://raw.githubusercontent.com/MarzenegoRiverside/MarzenegoWebpage/refs/heads/main/IMG-20251117-WA0030(1).jpg";
+const logo=`<img class="lg" src="${LOGO}" onerror="this.onerror=null;this.src='${LOGOF}'">`;
+const PAGES=[['home','Home'],['cal','Calendario'],['ev','Prossimi eventi'],['job','Lavora con noi'],['shop','Shop'],['chi','Chi siamo']];
+const MESI=['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno','Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'];
+const GG=['Domenica','Lunedì','Martedì','Mercoledì','Giovedì','Venerdì','Sabato'];
+const TEMI=['#F4C430','#1E6BFF','#22FF55','#FF3B3B'];
+const S={u:null,uid:null,ud:{},page:'home',prev:'home',D:{eventi:[],novita:[],news:[],risultati:[],eventiExtra:[],posizioni:[],organigramma:[],prodotti:[]},mo:new Date(),shopTab:'Vestiti',names:[],msgs:[],cand:[],ord:[]};
+const p2=n=>String(n).padStart(2,'0'),ymd=d=>d.getFullYear()+'-'+p2(d.getMonth()+1)+'-'+p2(d.getDate());
+const dmy=s=>{const[a,b,c]=s.split('-');return c+'/'+b+'/'+a};
+const col=async n=>{try{return(await getDocs(collection(db,n))).docs.map(d=>({id:d.id,...d.data()}))}catch(e){return[]}};
+const byData=(a,b)=>String(b.data||'').localeCompare(String(a.data||''));
+const user=`<svg viewBox="0 0 24 24" fill="#fff"><circle cx="12" cy="8" r="4.2"/><path d="M3.5 21c0-4.6 3.8-7.2 8.5-7.2s8.5 2.6 8.5 7.2z"/></svg>`;
 
-// Stesso progetto Firebase dell'app attuale (nessuna modifica a collection/campi)
-const app = initializeApp({
-  apiKey: "AIzaSyCvqU28XLWRsfJUso0MuS72O2Qxks-MFP0",
-  authDomain: "marzenego-2e266.firebaseapp.com",
-  projectId: "marzenego-2e266",
-  storageBucket: "marzenego-2e266.appspot.com"
-});
-const db = getFirestore(app);
-
-const $ = id => document.getElementById(id);
-const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const get = async n => { const s = await getDocs(collection(db, n)); return s.docs.map(d => ({ id: d.id, ...d.data() })); };
-const byDateDesc = (a, b) => String(b.data || "").localeCompare(String(a.data || ""));
-const ddmm = iso => { const [y, m, d] = String(iso).split("-"); return d + "/" + m; };
-
-// ── Sessione (stessa chiave e formato del vecchio index) ──
-const SK = "mzr_session";
-let player = null;
-function readSession() { try { return JSON.parse(localStorage.getItem(SK) || sessionStorage.getItem(SK)); } catch (e) { return null; } }
-function saveSession(d, persist) {
-  try { localStorage.removeItem(SK); sessionStorage.removeItem(SK); (persist ? localStorage : sessionStorage).setItem(SK, JSON.stringify(d)); } catch (e) {}
+async function loadAll(){
+ const n=['eventi','novita','news','risultati','eventiExtra','posizioni','organigramma','prodotti'];
+ (await Promise.all(n.map(col))).forEach((r,i)=>S.D[n[i]]=r);
+ S.D.eventi.sort((a,b)=>(a.data+a.ora).localeCompare(b.data+b.ora));
+ await loadUser();
 }
-function renderUser() {
-  const u = $("user");
-  if (!player) { u.className = "user glass"; u.innerHTML = '<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4.2"/><path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7z"/></svg>'; return; }
-  u.className = "user on";
-  const foto = player.foto || player.photoURL;
-  if (foto) { u.innerHTML = `<img src="${esc(foto)}" alt="">`; return; }
-  const p = String(player.nome || player.username || "?").trim().split(/\s+/);
-  u.textContent = ((p[0] || "")[0] + (p.length > 1 ? p[p.length - 1][0] : "")).toUpperCase();
+async function loadUser(){
+ if(!S.u)return;
+ const[m,c,o]=await Promise.all([
+  getDocs(query(collection(db,"messaggi"),where("destinatario","==",S.u.username))).then(s=>s.docs.map(d=>({id:d.id,...d.data()}))).catch(()=>[]),
+  col('candidature'),col('richieste_prodotti')]);
+ S.msgs=m.sort((a,b)=>b.timestamp-a.timestamp);
+ S.cand=c.filter(x=>x.nome===S.u.nome);S.ord=o.filter(x=>x.nomeUtente===S.u.nome);
 }
-window.onUser = () => {
-  if (!player) return $("loginModal").classList.add("show");
-  $("profName").textContent = player.nome || player.username;
-  $("profUser").textContent = player.username || "";
-  $("profModal").classList.add("show");
-};
-window.loginPlayer = async () => {
-  const username = $("lu").value.trim(), password = $("lp").value.trim();
-  if (!username || !password) return alert("Inserisci username e password");
-  try {
-    const snap = await getDocs(query(collection(db, "utenti"), where("username", "==", username), where("password", "==", password)));
-    if (snap.empty) return alert("Credenziali errate");
-    const d = snap.docs[0].data();
-    player = { type: "player", username: d.username, nome: d.nome, ruolo: d.ruolo || "", permissions: d.permissions || null, foto: d.foto || d.photoURL || "" };
-    saveSession({ type: "player", username: d.username, nome: d.nome, ruolo: d.ruolo || "", permissions: d.permissions || null }, $("lr").checked);
-    $("loginModal").classList.remove("show"); $("lu").value = $("lp").value = "";
-    renderUser(); show(cur);
-  } catch (e) { alert("Errore: " + e.message); }
-};
-window.logout = () => {
-  player = null; try { localStorage.removeItem(SK); sessionStorage.removeItem(SK); } catch (e) {}
-  $("profModal").classList.remove("show"); renderUser(); show(cur);
-};
-
-// ── Navigazione (6 sezioni, scroll orizzontale) ──
-const SECTIONS = ["Home", "Calendario", "Prossimi eventi", "Lavora con noi", "Shop", "Chi siamo"];
-let cur = "Home";
-$("nav").innerHTML = SECTIONS.map(s => `<a data-s="${s}">${s}</a>`).join("");
-$("nav").onclick = e => { const a = e.target.closest("a"); if (a) show(a.dataset.s); };
-
-// ── Componenti ──
-const card = (slides, nexts) => `
-  <div class="card">
-    <div class="back"><span class="next">${nexts[0] ? "Next: " + esc(nexts[0]) : ""}</span></div>
-    <div class="front glass">
-      <div class="track">${slides.map(s => `<div class="slide">${s}</div>`).join("")}</div>
-      ${slides.length > 1 ? `<div class="dots">${slides.map((_, i) => `<span class="${i ? "" : "on"}"></span>`).join("")}</div>` : ""}
-    </div>
-  </div>`;
-// Swipe orizzontale (touch + mouse) con loop: dopo l'ultima card si torna alla prima
-function wireCard(nexts) {
-  const tr = document.querySelector(".card .track"); if (!tr) return;
-  const n = tr.children.length; if (n < 2) return;
-  const front = tr.parentElement, dots = front.querySelectorAll(".dots span"), nx = document.querySelector(".card .next");
-  let i = 0, x0 = 0, y0 = 0, dx = 0, mode = null, id = null;
-  const apply = anim => {
-    tr.style.transition = anim ? "transform .3s ease" : "none";
-    tr.style.transform = `translateX(calc(${-i * 100}% + ${dx}px))`;
-  };
-  const go = k => {
-    i = (k + n) % n; dx = 0; apply(true);
-    dots.forEach((d, j) => d.classList.toggle("on", j === i));
-    if (nx && nexts[i]) nx.textContent = "Next: " + nexts[i];
-  };
-  front.addEventListener("pointerdown", e => { id = e.pointerId; x0 = e.clientX; y0 = e.clientY; dx = 0; mode = null; });
-  front.addEventListener("pointermove", e => {
-    if (e.pointerId !== id) return;
-    const mx = e.clientX - x0, my = e.clientY - y0;
-    if (!mode && (Math.abs(mx) > 8 || Math.abs(my) > 8)) {
-      mode = Math.abs(mx) > Math.abs(my) ? "h" : "v";
-      if (mode === "h") { try { front.setPointerCapture(id); } catch (err) {} }
-    }
-    if (mode === "h") { dx = mx; apply(false); }
-  });
-  const end = e => {
-    if (e.pointerId !== id) return; id = null;
-    if (mode === "h") { const th = Math.min(60, front.clientWidth / 5); go(dx < -th ? i + 1 : dx > th ? i - 1 : i); }
-    mode = null;
-  };
-  front.addEventListener("pointerup", end);
-  front.addEventListener("pointercancel", end);
+function setTema(c){document.documentElement.style.setProperty('--ac',c)}
+async function applyUser(d,id){
+ S.u={username:d.username,nome:d.nome,permissions:d.permissions||null};S.uid=id;S.ud=d;
+ if(d.tema)setTema(d.tema);
+ await loadUser();
 }
-const secondary = (ev) => {
-  const t = new Date(); t.setHours(0, 0, 0, 0);
-  const L = ["D", "L", "M", "M", "G", "V", "S"];
-  let days = "";
-  for (let k = -2; k <= 3; k++) {
-    const d = new Date(t); d.setDate(t.getDate() + k);
-    days += `<div class="day ${k === 0 ? "today" : ""}"><span>${L[d.getDay()]}</span><span>${d.getDate()}</span></div>`;
-  }
-  return `<div class="card sec"><div class="back"><span class="next">${ev ? "Next: " + esc(ev.tipo) + " " + ddmm(ev.data) : ""}</span></div><div class="front glass"><div class="days">${days}</div></div></div>`;
-};
-
-let eventiCache = null;
-async function eventi() { return eventiCache || (eventiCache = (await get("eventi")).sort((a, b) => (a.data + (a.ora || "")).localeCompare(b.data + (b.ora || "")))); }
-const todayIso = () => { const d = new Date(); return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); };
-const nextEvent = async () => (await eventi()).find(e => e.data >= todayIso());
-
-// ── Viste ──
-const views = {
-  async Home() {
-    const [nov, news, ris, ne] = await Promise.all([get("novita"), get("news"), get("risultati"), nextEvent()]);
-    nov.sort(byDateDesc); news.sort(byDateDesc); ris.sort(byDateDesc);
-    const s1 = `<div class="bhead"><img src="Marzenego.png" alt="MRZRS"><div><h1>Home Page</h1><div class="sub">Scorri le sezioni</div></div></div>
-      <p class="lead">Troverai la nostra sezione dedicata ai risultati, alle news e i collegamenti esterni</p>
-      <div class="lbl">Bacheca:</div>${nov.slice(0, 3).map(n => `<p class="pin">“${esc(n.titolo)}”</p>`).join("") || '<p class="empty">Nessuna novità al momento</p>'}`;
-    const s2 = `<h1 style="margin:14px 0 34px">News dal fiume</h1>${news.slice(0, 3).map(n => `<div class="row"><div class="t"><b>${esc(n.titolo)}</b><span class="s">${esc(n.testo)}</span></div>${n.img ? `<img src="${esc(n.img)}" alt="">` : ""}</div>`).join("") || '<p class="empty">Nessuna news</p>'}`;
-    const s3 = `<h1 style="margin:14px 0 34px">Ultimi risultati</h1>${ris.slice(0, 3).map(r => {
-      const c = r.esito === "V" ? "W" : r.esito === "P" ? "L" : "D";
-      return `<div class="row"><div class="t"><b>${esc(r.avversario)}</b><span class="s">${esc(r.nostri)} - ${esc(r.loro)}</span></div><div class="esito ${c}">${c}</div></div>`;
-    }).join("") || '<p class="empty">Nessun risultato</p>'}`;
-    const nexts = ["News dal Fiume", "Ultimi Risultati", "Bacheca"];
-    return { html: card([s1, s2, s3], nexts) + secondary(ne), nexts };
-  },
-  async Calendario() {
-    const [ev, ne] = [await eventi(), await nextEvent()];
-    const items = ev.filter(e => e.data >= todayIso()).map(e => `<div class="item" data-id="${e.id}"><b>${esc(e.tipo)}${e.luogo ? " - " + esc(e.luogo) : ""}</b><small>${ddmm(e.data)} · ${esc(e.ora || "")}${e.note ? "\n" + esc(e.note) : ""}</small>${player ? `<div class="vote"><button class="btn" data-v="presente">Presente</button><button class="btn" data-v="assente">Assente</button></div>` : ""}</div>`).join("") || '<p class="empty">Nessun evento in programma</p>';
-    return { html: card([`<h1 style="margin:14px 0 18px">Calendario</h1>${items}`], []) + secondary(ne), after: wireVotes };
-  },
-  async "Prossimi eventi"() {
-    const [ex, ne] = [await get("eventiExtra"), await nextEvent()];
-    const items = ex.map(e => `<div class="item"><b>${esc(e.testo)}</b></div>`).join("") || '<p class="empty">Nessun evento in programma</p>';
-    return { html: card([`<h1 style="margin:14px 0 18px">Prossimi eventi</h1>${items}`], []) + secondary(ne) };
-  },
-  async "Lavora con noi"() {
-    const [p, ne] = [await get("posizioni"), await nextEvent()];
-    const items = p.map(e => `<div class="item"><b>${esc(e.testo)}</b></div>`).join("") || '<p class="empty">Nessuna posizione aperta</p>';
-    return { html: card([`<h1 style="margin:14px 0 18px">Lavora con noi</h1>${items}`], []) + secondary(ne) };
-  },
-  async Shop() {
-    const [p, ne] = [await get("prodotti"), await nextEvent()];
-    const items = `<div class="grid">${p.map(d => `<div class="prod"><img src="${esc(d.img)}" alt=""><b>${esc(d.nome)}</b><small style="display:block;color:var(--gold);font-weight:700">€ ${esc(d.prezzo || "-")}</small></div>`).join("")}</div>`;
-    return { html: card([`<h1 style="margin:14px 0 18px">Shop</h1>${p.length ? items : '<p class="empty">Nessun prodotto</p>'}`], []) + secondary(ne) };
-  },
-  async "Chi siamo"() {
-    const [o, ne] = [await get("organigramma"), await nextEvent()];
-    const L = { presidente: "Presidente", tesoreria: "Tesoreria", manutenzione: "Manutenzione campo", dirigenti: "Dirigenti", social: "Social team", marketing: "Marketing & Fashion", planning: "Planning special events" };
-    const items = o.map(r => `<h3>${esc(L[r.id] || r.id)}</h3><p>${(r.nomi || []).map(esc).join("<br>")}</p>`).join("");
-    return { html: card([`<h1 style="margin:14px 0 18px">Chi siamo</h1><div class="org">${items || '<p class="empty">—</p>'}</div>`], []) + secondary(ne) };
-  }
-};
-
-// Presenze: stesso formato doc/campi del vecchio index (presenze/{eventoId}_{username})
-async function wireVotes() {
-  document.querySelectorAll(".item[data-id]").forEach(async el => {
-    const id = el.dataset.id, btns = el.querySelectorAll(".btn[data-v]");
-    if (!btns.length) return;
-    const mark = st => btns.forEach(b => b.classList.toggle("on", b.dataset.v === st));
-    try { const s = await getDoc(doc(db, "presenze", id + "_" + player.username)); if (s.exists()) mark(s.data().stato); } catch (e) {}
-    btns.forEach(b => b.onclick = async () => {
-      await setDoc(doc(db, "presenze", id + "_" + player.username), { eventoId: id, username: player.username, nome: player.nome, stato: b.dataset.v, timestamp: Date.now() });
-      mark(b.dataset.v);
-    });
-  });
+function ini(){return(S.u.nome||S.u.username).split(/\s+/).map(x=>x[0]).slice(0,2).join('').toUpperCase()}
+function hdr(){
+ const b=$('#usr');
+ if(S.u){b.className='usr lgd';b.innerHTML=S.ud.fotoProfilo?`<img src="${S.ud.fotoProfilo}">`:E(ini())}
+ else{b.className='usr glass';b.innerHTML=user}
 }
-
-async function show(name) {
-  cur = name;
-  document.querySelectorAll("#nav a").forEach(a => a.classList.toggle("act", a.dataset.s === name));
-  $("view").innerHTML = "";
-  try {
-    const r = await views[name]();
-    if (cur !== name) return;
-    $("view").innerHTML = r.html;
-    wireCard(r.nexts || []);
-    r.after && r.after();
-  } catch (e) { console.error(e); $("view").innerHTML = '<div class="card"><div class="front glass"><div class="slide"><p class="empty">Impossibile caricare i dati.</p></div></div></div>'; }
+function nextEv(){
+ const n=new Date(),k=ymd(n)+p2(n.getHours())+':'+p2(n.getMinutes());
+ return S.D.eventi.find(e=>(e.data+e.ora)>=k);
 }
+function sec(){
+ const t=new Date(),ne=nextEv();let h='';
+ for(let i=-2;i<4;i++){const d=new Date(t.getFullYear(),t.getMonth(),t.getDate()+i);h+=`<div class="dy${i?'':' on'}"><b>${'DLMMGVS'[d.getDay()]}</b><span>${p2(d.getDate())}</span></div>`}
+ const nt=ne?`${E(ne.tipo)} ${ne.data.slice(8)}/${ne.data.slice(5,7)}`:'nessun evento';
+ return `<div class="stack"><div class="back"><span class="nx" style="text-decoration:none">Next: ${nt}</span></div><div class="front glass" style="border-radius:34px"><div class="wk">${h}</div></div></div>`;
+}
+function stack(sl,o={}){
+ S.names=sl.map(s=>s[0]);
+ const dots=sl.length>1?`<div class="dots">${sl.map((_,i)=>`<i class="${i?'':'on'}"></i>`).join('')}</div>`:'<div style="height:14px"></div>';
+ return `<div class="stack${o.nb?' nb':''}">${o.nb?'':`<div class="back"><span class="nx">Next: ${E(o.nx||sl[1%sl.length][0])}</span></div>`}<div class="front glass"><div class="sl">${sl.map(s=>`<section>${s[1]}</section>`).join('')}</div>${dots}</div></div>`;
+}
+const head=(t,s,l=1)=>`<div class="h">${l?logo:''}<div><div class="t">${t}</div>${s?`<div class="st">${s}</div>`:''}</div></div>`;
 
-player = readSession();
-if (player && player.type !== "player") player = null; // l'accesso admin resta nella vecchia app
-renderUser();
-show("Home");
+/* ---------- HOME ---------- */
+function vHome(){
+ const nv=[...S.D.novita].sort(byData).slice(0,3),nw=[...S.D.news].sort(byData).slice(0,3),rs=[...S.D.risultati].sort(byData).slice(0,3);
+ const s1=head('Home Page','Scorri le sezioni')+`<p class="b18">Troverai la nostra sezione dedicata ai risultati, alle news e i collegamenti esterni</p><div class="s">Bacheca:</div>`+nv.map(x=>`<div class="li">“${E(x.titolo)}”</div>`).join('');
+ const s2=head('News dal fiume','',0)+nw.map(x=>{const im=x.img||x.immagine||x.foto;return `<div class="row"><div><b>${E(x.titolo)}</b><span>${E((x.testo||'').slice(0,40))}${(x.testo||'').length>40?'…':''}</span></div>${im?`<img src="${E(im)}">`:''}</div>`}).join('');
+ const s3=head('Ultimi risultati','',0)+rs.map(x=>{const k=x.esito==='V'?'W':x.esito==='P'?'L':'D';return `<div class="row"><div><b>${E(x.avversario)}</b><span>${E(x.nostri)} – ${E(x.loro)}</span></div><div class="wl glass ${k}">${k}</div></div>`}).join('');
+ return stack([['Bacheca',s1],['News dal Fiume',s2],['Ultimi Risultati',s3]])+sec();
+}
+/* ---------- CALENDARIO ---------- */
+const LAB=t=>t==='Allenamento'?'ALL':t==='Partita'?'PAL':String(t||'').slice(0,3).toUpperCase();
+function vCal(){
+ const y=S.mo.getFullYear(),m=S.mo.getMonth(),off=(new Date(y,m,1).getDay()+6)%7,td=ymd(new Date());let c='';
+ for(let i=0;i<42;i++){const d=new Date(y,m,1-off+i),k=ymd(d),e=S.D.eventi.find(x=>x.data===k);
+  c+=`<div class="c${d.getMonth()!==m?' o':''}${e?' ev':''}${k===td?' td':''}" ${e?`data-a="openEv" data-v="${e.id}"`:''}><span>${p2(d.getDate())}</span>${e?`<small>${E(e.ora)}<br>${LAB(e.tipo)}</small>`:''}</div>`}
+ const t=new Date(),mon=new Date(t.getFullYear(),t.getMonth(),t.getDate()-((t.getDay()+6)%7)),a=ymd(mon),z=ymd(new Date(mon.getFullYear(),mon.getMonth(),mon.getDate()+6));
+ const wk=tp=>{const e=S.D.eventi.find(x=>x.tipo===tp&&x.data>=a&&x.data<=z);return e?`${GG[new Date(e.data+'T12:00').getDay()]} ${e.data.slice(8)}/${e.data.slice(5,7)}`:'–'};
+ return `<div class="front glass" style="padding:16px 14px;margin-bottom:12px"><div class="cm"><b>${MESI[m]} ${y}</b><span class="pill" data-a="mo" data-v="-1">−</span><span class="pill" data-a="mo" data-v="1">+</span></div><div class="cg">${c}</div></div>
+ <div class="stack tp"><div class="back"><span class="lab">Coming this week…</span></div><div class="front glass" style="padding:12px 18px;font-size:14px"><b>Allenamento:</b> <span style="font-weight:300">${wk('Allenamento')}</span><br><b>Partita:</b> <span style="font-weight:300">${wk('Partita')}</span></div></div>`;
+}
+async function evModal(id,tab='r'){
+ const e=S.D.eventi.find(x=>x.id===id);if(!e)return;
+ let body='';
+ if(tab==='r')body=`<div class="s">Data</div><div class="li">${dmy(e.data)}</div><div class="s">Orario</div><div class="li">${E(e.ora)}</div><div class="s">Luogo</div><div class="li">${E(e.luogo||'-')}</div><div class="s">Note</div><div class="li">${E(e.note||'-')}</div>`;
+ else{
+  const ps=(await getDocs(query(collection(db,"presenze"),where("eventoId","==",id)))).docs.map(d=>d.data()),v=new Set(ps.map(p=>p.username));
+  let nv=[];try{nv=(await getDocs(collection(db,"utenti"))).docs.map(d=>d.data()).filter(u=>u.username&&!u.votoDisabilitato&&!v.has(u.username)).map(u=>u.nome||u.username)}catch(x){}
+  const L=a=>a.length?a.map(n=>`<div class="li" style="margin:0 0 3px">${E(n)}</div>`).join(''):'<div class="li">—</div>';
+  body=`<div class="two"><div><div class="s" style="margin:0 0 4px">Presenti</div>${L(ps.filter(p=>p.stato==='presente').map(p=>p.nome||p.username))}</div><div><div class="s" style="margin:0 0 4px">Assenti</div>${L(ps.filter(p=>p.stato!=='presente').map(p=>p.nome||p.username))}</div></div><div class="s">Chi non ha ancora votato:</div>${L(nv)}`;
+ }
+ let st=null;if(S.u){const g=await getDoc(doc(db,"presenze",id+"_"+S.u.username));if(g.exists())st=g.data().stato}
+ const h=`<div class="ov" data-a="close"><div class="mc" onclick="event.stopPropagation()"><div class="front glass" style="margin-bottom:12px"><div class="t" style="font-size:26px;margin-bottom:10px">${E(e.tipo)}</div><div style="display:flex;gap:8px;margin-bottom:12px"><span class="pill${tab==='r'?'':' off'}" data-a="tab" data-v="${id}|r">Riepilogo</span><span class="pill${tab==='p'?'':' off'}" data-a="tab" data-v="${id}|p">Presenze</span></div><div style="min-height:230px">${body}</div></div>
+ <div class="stack tp"><div class="back"><span class="lab" style="text-transform:uppercase">Il tuo voto:</span></div><div class="front glass vt"><span class="pill ok off${st==='presente'?' sel':''}" style="${st==='presente'?'':'background:rgba(255,255,255,.08)'}" data-a="vota" data-v="${id}|presente">Presente</span><span class="pill ko${st==='assente'?' sel':''}" style="${st==='assente'?'':'background:rgba(255,255,255,.08)'}" data-a="vota" data-v="${id}|assente">Assente</span></div></div></div></div>`;
+ modal(h);
+}
+/* ---------- PROSSIMI EVENTI ---------- */
+function vEv(){
+ const n=S.ud.noteEventi||[];
+ return stack([['',head('Eventi','In programma')+`<div class="s" style="margin-top:6px">Annota nella tua area personale</div>`+S.D.eventiExtra.map(x=>`<div class="row" style="margin-bottom:6px"><div class="li" style="margin:0">“${E(x.testo)}”</div><span data-a="pin" data-v="${x.id}" style="cursor:pointer;font-size:15px;${n.includes(x.testo)?'':'opacity:.4;filter:grayscale(1)'}">📌</span></div>`).join('')]],{nb:1})+sec();
+}
+/* ---------- LAVORA CON NOI ---------- */
+function vJob(){
+ const O=Object.fromEntries(S.D.organigramma.map(o=>[o.id,o.nomi||[]])),RL={presidente:'Presidente',tesoreria:'Tesoreria',manutenzione:'Manutenzione',dirigenti:'Dirigente'};
+ const s1=head('Posizioni','Aperte')+S.D.posizioni.map(x=>`<div class="row" style="margin-bottom:10px"><div class="li" style="margin:0">“${E(x.testo)}”</div><span class="pill" data-a="cand" data-v="${x.id}">Candidati</span></div>`).join('');
+ const dir=['presidente','tesoreria','manutenzione','dirigenti'].flatMap(r=>(O[r]||[]).map(n=>[n,RL[r]]));
+ const s2=head('Organigramma','Dirigenti',0)+dir.map(([n,r])=>`<div class="row" style="margin-bottom:8px"><div class="li" style="margin:0">“${E(n)}”</div><span class="pill">${r}</span></div>`).join('');
+ const L=a=>(a||[]).map(n=>`<div class="li" style="margin:0 0 3px">“${E(n)}”</div>`).join('')||'<div class="li">—</div>';
+ const s3=head('Organigramma','Altre figure',0)+`<div class="glass" style="border-radius:14px;padding:10px 12px;margin-bottom:16px">${L(O.social)}</div><div class="s">MZ PARTY LAB:</div>${L(O.planning)}<div class="s" style="margin-top:12px">ALTRO:</div>${L(O.marketing)}`;
+ const cd=S.u?S.cand.map(c=>{const k=c.stato==='accettata'?['ok','Accettata']:c.stato==='bocciata'?['ko','Bocciata']:['wt','In valutaz.'];return `<div class="row" style="margin:0 0 4px"><div class="li" style="margin:0">“${E(c.posizione)}”</div><span class="pill ${k[0]}" style="cursor:default;font-size:11px;padding:2px 12px">${k[1]}</span></div>`}).join('')||'<div class="li">Altro…</div>':'<div class="li">Accedi per vedere le tue candidature</div>';
+ return stack([['Posizioni aperte e candidati',s1],['Organigramma dirigenti',s2],['Altri ruoli',s3]],{})+`<div class="stack tp"><div class="back"><span class="lab">Le tue candidature:</span></div><div class="front glass" style="padding:12px 16px">${cd}</div></div>`;
+}
+/* ---------- SHOP ---------- */
+function vShop(){
+ const pr=S.D.prodotti.filter(p=>(p.categoria||'Vestiti')===S.shopTab);
+ const s1=head('Marze','Negozio')+`<div style="display:flex;gap:8px;margin-bottom:12px"><span class="pill${S.shopTab==='Vestiti'?'':' off'}" data-a="stab" data-v="Vestiti">Vestiti</span><span class="pill${S.shopTab==='Accessori'?'':' off'}" data-a="stab" data-v="Accessori">Accessori</span></div>`+pr.map(p=>`<div class="glass" style="border-radius:16px;padding:8px 10px;margin-bottom:10px;display:flex;gap:12px;align-items:center"><img src="${E(p.img)}" style="width:62px;height:62px;object-fit:cover;border-radius:10px"><div style="font-size:12px;font-weight:300"><div>“${E(p.nome)}”</div><u>“${E(p.prezzo)}€”</u><div style="font-weight:700;cursor:pointer" data-a="ottieni" data-v="${p.id}">Ottieni</div></div></div>`).join('');
+ const s2=head('Marze','Negozio')+`<div class="li" style="font-size:12px">Elenco dei tuoi ordini in elaborazione</div>`+(S.u?S.ord:[]).map(o=>`<div class="glass" style="border-radius:16px;padding:10px 14px;margin-bottom:10px;font-size:13px">“${E(o.prodottoNome)}”<br><b>Q.tità: ${E(o.quantita||1)}</b> · Taglia: ${E(o.taglia)}</div>`).join('');
+ return stack([['I tuoi ordini',s1],['Catalogo',s2]]);
+}
+/* ---------- CHI SIAMO ---------- */
+function vChi(){
+ return stack([['',head('Come nasce','Il progetto')+`<p class="li" style="margin:26px 12px 26px;font-size:16px">“Descrizione del nostro progetto di squadra, di come siamo nati e cosa vogliamo dal futuro”</p><img src="${TEAM}" style="width:100%;border-radius:22px;display:block;margin-bottom:10px">`]],{nx:'I tuoi ordini'});
+}
+/* ---------- LA TUA AREA ---------- */
+function vArea(){
+ const n=S.ud.noteEventi||[],A=S.ud.assets||{},un=S.msgs.filter(m=>!m.letto).length,lm=S.msgs[0];
+ const s1=head('La tua area','Benvenuto '+E(S.u.nome),0)+`<div class="s" style="margin-top:22px">Presenze</div><button class="lnk" data-a="go" data-v="cal">Clicca per votare ↗</button><div class="s">Ordini</div><button class="lnk" data-a="go" data-v="shop">Clicca per vedere i tuoi ordini ↗</button><div class="s" style="margin-top:14px">Le tue note</div><div class="li" style="opacity:.75">Eventi da ricordare:</div>`+n.map(x=>`<div class="li">📌 ${E(x)}</div>`).join('');
+ const d=lm?new Date(lm.timestamp):null;
+ const s2=head('La tua area','Centro messaggi',0)+`<div class="s" style="margin-top:14px">Marzenego Staff:</div>`+S.msgs.slice(0,3).map(m=>`<div class="li">“${E(m.testo)}”</div>`).join('')+`<div class="s" style="margin-top:34px">Ultimo messaggio:</div><div class="li" style="margin:0">${d?`il ${p2(d.getDate())}/${p2(d.getMonth()+1)}/${d.getFullYear()} alle ore ${p2(d.getHours())}:${p2(d.getMinutes())}`:'—'}</div><label class="ck"><input type="checkbox" data-a="letti" ${un?'':'checked'}>Segna tutti come già letti</label>`;
+ const ic=(bg,svg)=>`<span style="width:46px;height:30px;border-radius:15px;background:${bg};display:grid;place-items:center">${svg}</span>`;
+ const s3=head('La tua area','Link to',0)+`<div class="row" style="margin-top:24px"><div class="li" style="margin:0">Gruppo Whatsapp</div><a href="https://chat.whatsapp.com/BMPFyLqQS4kBQSHLi0UUju" target="_blank" rel="noopener">${ic('#2fa84f','💬')}</a></div><div class="row" style="margin-top:30px"><div class="li" style="margin:0">Pagina Instagram</div><a href="https://www.instagram.com/marzenego_riverside/" target="_blank" rel="noopener">${ic('linear-gradient(45deg,#f9a13b,#d6249f,#5851db)','📷')}</a></div><div class="s" style="margin-top:34px">Email:</div><div class="li">marzenegoriverside@gmail.com</div>`;
+ const c=(k,t)=>`<label class="ck" style="margin:2px 4px"><input type="checkbox" data-k="${k}" ${A[k]?'checked':''}>${t}</label>`;
+ const s4=head('La tua area','Assets e visita medica',0)+c('kit','Ho il kit Prima Maglia')+c('borsone','Ho il Borsone')+c('felpa','Ho la felpa Warm Up')+c('casacca','Ho una casacca')+`<div class="row" style="margin:10px 4px 6px"><b style="font-size:14px;flex:none">Numero maglia:</b><input class="in" id="nm" placeholder="#" value="${E(S.ud.numeroMaglia||'')}" style="width:56px;padding:2px 8px;margin:0;border-radius:14px;font-size:14px;text-align:center"></div><div class="s">Scadenza visita medica:</div><input class="in" id="vm" type="text" placeholder="inserisci data..." value="${E(S.ud.scadenzaVisita||'')}" onfocus="this.type='date'" style="padding:6px 12px;font-size:14px;border-radius:14px;margin:4px 0 8px"><button class="btn" data-a="salva" style="padding:8px;font-size:15px;font-weight:500">Salva</button>`;
+ const s5=head('La tua area','Impostazioni',0)+`<div class="s" style="margin-top:10px">Settings</div><div class="row" style="margin-bottom:6px"><span>Notifiche</span><div class="tg"><i></i></div></div><div class="row" style="margin-bottom:6px"><span>Cambia tema app</span><button class="tc" data-a="tema"></button></div><button class="lnk" data-a="fotoBtn">Imposta foto profilo</button><button class="lnk" data-a="contratto">Leggi il contratto</button>`;
+ return stack([['',s1],['',s2],['',s3],['',s4],['',s5]],{nb:1})+sec();
+}
+/* ---------- RENDER ---------- */
+function view(){return{home:vHome,cal:vCal,ev:vEv,job:vJob,shop:vShop,chi:vChi,area:vArea}[S.page]()}
+function render(){
+ hdr();
+ $('#nav').style.display=S.page==='area'?'none':'flex';
+ $('#nav').innerHTML=PAGES.map(([k,l])=>`<button class="${k===S.page?'on':''}" data-a="go" data-v="${k}">${l}</button>`).join('');
+ const nv=$('#nav'),on=$('#nav .on');if(on)nv.scrollLeft=on.offsetLeft-nv.offsetLeft-8;
+ try{$('#main').innerHTML=view()}catch(e){console.error(e);$('#main').innerHTML=''}
+ const sl=$('#main .sl');if(sl){const d=[...$('#main .dots')?.children||[]],nx=$('#main .nx');
+  sl.addEventListener('scroll',()=>{const i=Math.round(sl.scrollLeft/sl.clientWidth);d.forEach((x,j)=>x.classList.toggle('on',j===i));if(nx&&S.names.length>1)nx.textContent='Next: '+S.names[(i+1)%S.names.length]},{passive:true})}
+ $('.tc')&&($('.tc').style.background=getComputedStyle(document.documentElement).getPropertyValue('--ac'));
+}
+function go(p){if(p!=='area')S.prev=p;S.page=p;window.scrollTo(0,0);render()}
+function modal(h){closeM();const d=document.createElement('div');d.id='mod';d.innerHTML=h;document.body.appendChild(d)}
+function closeM(){$('#mod')?.remove()}
+const glassCard=(h)=>modal(`<div class="ov" data-a="close"><div class="mc" onclick="event.stopPropagation()"><div class="front glass">${h}</div></div></div>`);
+function loginM(){glassCard(`<div class="t" style="font-size:30px;margin:6px 0 14px">Login</div><input class="in" id="lu" placeholder="Username" autocapitalize="none"><input class="in" id="lp" type="password" placeholder="Password"><button class="btn" data-a="login" style="margin-top:18px">Accedi</button><label class="ck"><input type="checkbox" id="lr">Resta collegato</label>`)}
+/* ---------- AZIONI ---------- */
+const save=(f)=>S.uid&&updateDoc(doc(db,"utenti",S.uid),f).catch(e=>alert("Errore salvataggio: "+e.message));
+const A={
+ go:v=>go(v),close:()=>closeM(),
+ user:()=>{if(!S.u)return loginM();go(S.page==='area'?S.prev:'area')},
+ mo:v=>{S.mo=new Date(S.mo.getFullYear(),S.mo.getMonth()+ +v,1);render()},
+ openEv:v=>evModal(v),tab:v=>{const[i,t]=v.split('|');evModal(i,t)},
+ vota:async v=>{const[i,s]=v.split('|');if(!S.u){closeM();return loginM()}
+  await setDoc(doc(db,"presenze",i+"_"+S.u.username),{eventoId:i,username:S.u.username,nome:S.u.nome,stato:s,timestamp:Date.now()});
+  evModal(i,$('.pill[data-a=tab]:not(.off)')?.dataset.v.split('|')[1]||'r')},
+ login:async()=>{const u=$('#lu').value.trim(),p=$('#lp').value.trim();if(!u||!p)return alert("Inserisci username e password");
+  try{const s=await getDocs(query(collection(db,"utenti"),where("username","==",u),where("password","==",p)));
+   if(s.empty)return alert("Credenziali errate");
+   const d=s.docs[0].data(),rc=$('#lr').checked;await applyUser(d,s.docs[0].id);
+   try{localStorage.removeItem(SK);sessionStorage.removeItem(SK);(rc?localStorage:sessionStorage).setItem(SK,JSON.stringify({type:"player",username:d.username,nome:d.nome,ruolo:d.ruolo||"",permissions:d.permissions||null}))}catch(e){}
+   closeM();go('area')}catch(e){alert("Errore: "+e.message)}},
+ pin:async v=>{if(!S.u)return loginM();const x=S.D.eventiExtra.find(e=>e.id===v),n=S.ud.noteEventi||[];
+  S.ud.noteEventi=n.includes(x.testo)?n.filter(t=>t!==x.testo):[...n,x.testo];render();save({noteEventi:S.ud.noteEventi})},
+ cand:async v=>{if(!S.u)return loginM();const x=S.D.posizioni.find(p=>p.id===v);
+  await addDoc(collection(db,"candidature"),{nome:S.u.nome,posizione:x.testo,data:ymd(new Date())});
+  S.cand=(await col('candidature')).filter(c=>c.nome===S.u.nome);render();alert("Candidatura inviata con successo!")},
+ stab:v=>{S.shopTab=v;render()},
+ ottieni:v=>{if(!S.u)return loginM();const p=S.D.prodotti.find(x=>x.id===v);
+  glassCard(`<div class="t" style="font-size:26px;margin-bottom:12px">Ottieni articolo</div><div class="li" style="margin:0">“${E(p.nome)}”</div><u class="li">“${E(p.prezzo)}€”</u><div class="row" style="margin:8px 4px"><b style="flex:none;font-size:14px">Quantità:</b><input class="in" id="oq" type="number" min="1" value="1" style="width:64px;padding:2px 8px;margin:0;border-radius:14px;text-align:center"></div><div class="row" style="margin:8px 4px"><b style="flex:none;font-size:14px">Taglia:</b><input class="in" id="ot" placeholder="#" style="width:64px;padding:2px 8px;margin:0;border-radius:14px;text-align:center"></div><button class="btn" data-a="ordina" data-v="${v}" style="margin-top:22px">Conferma ordine</button>`)},
+ ordina:async v=>{const p=S.D.prodotti.find(x=>x.id===v),t=$('#ot').value.trim();if(!t)return alert("Inserisci la taglia");
+  await addDoc(collection(db,"richieste_prodotti"),{prodottoId:v,prodottoNome:p.nome,nomeUtente:S.u.nome,taglia:t,quantita:+$('#oq').value||1,data:ymd(new Date())});
+  S.ord=(await col('richieste_prodotti')).filter(o=>o.nomeUtente===S.u.nome);closeM();render();alert("Richiesta inviata!")},
+ letti:async()=>{for(const m of S.msgs.filter(m=>!m.letto)){await updateDoc(doc(db,"messaggi",m.id),{letto:true});m.letto=true}},
+ salva:()=>{const a={};document.querySelectorAll('[data-k]').forEach(i=>a[i.dataset.k]=i.checked);
+  S.ud.assets=a;S.ud.numeroMaglia=$('#nm').value.trim();S.ud.scadenzaVisita=$('#vm').value;
+  save({assets:a,numeroMaglia:S.ud.numeroMaglia,scadenzaVisita:S.ud.scadenzaVisita});alert("Salvato")},
+ tema:()=>glassCard(`<div class="t" style="font-size:30px">La tua area</div><div class="st" style="margin-bottom:16px">Cambia tema app</div>${TEMI.map(c=>`<div style="margin:10px 4px"><span class="tc" data-a="pickT" data-v="${c}" style="display:inline-block;background:${c};cursor:pointer;outline:${c===getComputedStyle(document.documentElement).getPropertyValue('--ac').trim()?'2px solid #fff':'0'}"></span></div>`).join('')}<button class="btn" data-a="close" style="margin-top:70px">Imposta</button>`),
+ pickT:v=>{setTema(v);S.ud.tema=v;save({tema:v});A.tema()},
+ fotoBtn:()=>$('#foto').click(),
+ contratto:()=>glassCard(`<div class="t" style="font-size:30px">La tua area</div><div class="st" style="margin-bottom:14px">Il tuo contratto</div><div class="li" style="font-size:16px;opacity:1">Durata 1 anno<br>Premi: nessuno<br>Multe:<br>Cartellino giallo 10 euro<br>Cartellino rosso 15 euro</div><button class="btn" data-a="close" style="margin-top:110px">Torna indietro</button>`)
+};
+document.addEventListener('click',e=>{const t=e.target.closest('[data-a]');if(!t||t.tagName==='INPUT')return;if(t.classList.contains('ov')&&e.target!==t)return;A[t.dataset.a]?.(t.dataset.v)});
+document.addEventListener('change',e=>{if(e.target.dataset.a==='letti'&&e.target.checked)A.letti()});
+$('#foto').addEventListener('change',e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{const i=new Image();i.onload=()=>{
+ const c=document.createElement('canvas');c.width=c.height=160;const x=c.getContext('2d'),m=Math.min(i.width,i.height);x.drawImage(i,(i.width-m)/2,(i.height-m)/2,m,m,0,0,160,160);
+ S.ud.fotoProfilo=c.toDataURL('image/jpeg',.8);save({fotoProfilo:S.ud.fotoProfilo});render()};i.src=r.result};r.readAsDataURL(f)});
+/* ---------- AVVIO ---------- */
+(async()=>{
+ let ss=null;try{ss=JSON.parse(localStorage.getItem(SK)||sessionStorage.getItem(SK)||'null')}catch(e){}
+ render();
+ if(ss&&ss.type==="player"&&ss.username){try{const s=await getDocs(query(collection(db,"utenti"),where("username","==",ss.username)));if(!s.empty)await applyUser(s.docs[0].data(),s.docs[0].id)}catch(e){}}
+ await loadAll();render();
+})();
 </script>
 </body>
 </html>
