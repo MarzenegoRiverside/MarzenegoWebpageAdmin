@@ -23,9 +23,9 @@
    Consigli: PNG quadrato 512x512 (o 1024x1024), senza trasparenza per iPhone.
    Se lasci vuoto "" viene usato il file apple-touch-icon.png del repository.
    ============================================================ */
-var APP_ICON_URL = "";
+var APP_ICON_URL = "https://raw.githubusercontent.com/MarzenegoRiverside/MarzenegoWebpage/main/apple-touch-icon.png";
 /* Metti true solo se l'icona ha ~20% di margine attorno al logo (icona "maskable") */
-var APP_ICON_MASKABLE = false;
+var APP_ICON_MASKABLE = true;
 
 /* Da qui in poi non serve modificare nulla */
 (function(){
@@ -145,9 +145,28 @@ nav button.on{opacity:1;font-weight:600;background:linear-gradient(150deg,rgba(2
 .pl::-webkit-scrollbar-track{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);border-radius:8px;margin:4px 0}
 .pl::-webkit-scrollbar-thumb{background:rgba(255,255,255,.55);border-radius:8px}
 @supports not selector(::-webkit-scrollbar){.pl{scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.55) rgba(255,255,255,.12)}}
-.nb{font-size:16px;font-weight:300;line-height:1.5;white-space:pre-wrap;word-break:break-word;max-height:48vh;overflow-y:auto;margin:14px 4px 0;opacity:.95}.nimg{width:100%;max-height:200px;object-fit:cover;border-radius:18px;margin-top:14px}.row.nw{cursor:pointer}
 .row img.ph{object-fit:contain;padding:8px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2)}
 .tgr{display:grid;grid-template-columns:repeat(3,1fr);gap:14px 8px;margin:10px 4px 0}
+
+/* ---------- ANIMAZIONI (stile iOS, discrete) ---------- */
+@keyframes ovIn{from{background:rgba(0,0,0,0);-webkit-backdrop-filter:blur(0);backdrop-filter:blur(0)}}
+@keyframes ovOut{to{background:rgba(0,0,0,0);-webkit-backdrop-filter:blur(0);backdrop-filter:blur(0)}}
+@keyframes mcIn{from{transform:translateY(18px) scale(.94)}to{transform:none}}
+@keyframes mcOut{to{transform:translateY(8px) scale(.97)}}
+.ov{animation:ovIn .3s ease backwards}
+.mc{animation:mcIn .5s cubic-bezier(.22,1.15,.36,1) backwards}
+.mout .ov{animation:ovOut .2s ease forwards;pointer-events:none}
+.mout .mc{animation:mcOut .2s ease forwards}
+.re .ov,.re .mc{animation:none}
+nav button,.btn,.pill,.usr,.lnk,.c.ev,.rw{transition:transform .4s cubic-bezier(.2,.9,.3,1.25),opacity .25s,background-color .35s,border-color .35s}
+nav button:active,.btn:active,.pill:active,.usr:active,.lnk:active,.c.ev:active,.rw:active{transform:scale(.95);transition-duration:.12s}
+.dots i{transition:background-color .3s,border-color .3s,transform .35s cubic-bezier(.2,.9,.3,1.4)}.dots i.on{transform:scale(1.18)}
+.dy,.c{transition:background-color .35s,border-color .35s}
+.rw{cursor:pointer}
+/* articolo news espanso */
+.nbody{font-size:17px;font-weight:400;line-height:1.5;opacity:.92;white-space:pre-line;overflow-wrap:anywhere;max-height:min(55vh,460px);overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding-right:4px}
+.nbody::-webkit-scrollbar{width:0}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-delay:0s!important;transition-duration:.01ms!important}}
 </style>
 </head>
 <body>
@@ -163,6 +182,8 @@ import {initializeApp} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-
 import {getFirestore,collection,getDocs,addDoc,doc,setDoc,getDoc,updateDoc,query,where} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 const db=getFirestore(initializeApp({apiKey:"AIzaSyCvqU28XLWRsfJUso0MuS72O2Qxks-MFP0",authDomain:"marzenego-2e266.firebaseapp.com",projectId:"marzenego-2e266",storageBucket:"marzenego-2e266.appspot.com"}));
 const $=(s,r=document)=>r.querySelector(s);
+const RM=matchMedia('(prefers-reduced-motion:reduce)').matches,EZ='cubic-bezier(.22,1,.36,1)',SPR='cubic-bezier(.3,1.5,.5,1)';
+const enter=()=>{if(RM)return;const top=[...$('#main').children];document.querySelectorAll('#main section,#main .front>:not(.sl),#main .back>*').forEach(el=>{const i=Math.max(0,top.findIndex(t=>t.contains(el)));el.animate([{opacity:0,transform:'translateY(10px)'},{opacity:1,transform:'none'}],{duration:420,delay:i*60,easing:EZ,fill:'backwards'})})};
 const E=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const SK="mzr_session",LOGO="Marzenego.png",LOGOF="https://raw.githubusercontent.com/MarzenegoRiverside/MarzenegoWebpage/refs/heads/main/Marzenego.png";
 const TEAM="https://raw.githubusercontent.com/MarzenegoRiverside/MarzenegoWebpage/refs/heads/main/IMG-20251117-WA0030(1).jpg";
@@ -207,8 +228,8 @@ async function applyUser(d,id){
 }
 function ini(){return(S.u.nome||S.u.username).split(/\s+/).map(x=>x[0]).slice(0,2).join('').toUpperCase()}
 function hdr(){
- const b=$('#usr');
- if(S.u){b.className='usr lgd';b.innerHTML=S.ud.fotoProfilo?`<img src="${S.ud.fotoProfilo}">`:E(ini())}
+ const b=$('#usr'),was=b.classList.contains('lgd');
+ if(S.u){b.className='usr lgd';b.innerHTML=S.ud.fotoProfilo?`<img src="${S.ud.fotoProfilo}">`:E(ini());if(!was&&!RM)b.animate([{transform:'scale(.7)',opacity:.4},{transform:'scale(1)',opacity:1}],{duration:480,easing:SPR})}
  else{b.className='usr glass';b.innerHTML=user}
 }
 function nextEv(){
@@ -232,7 +253,7 @@ const head=(t,s,l=1)=>`<div class="h">${l===2?logoLab:l?logo:''}<div><div class=
 function vHome(){
  const nv=[...S.D.novita].sort(byData).slice(0,3),nw=[...S.D.news].sort(byData).slice(0,3),rs=[...S.D.risultati].sort(byData).slice(0,3);
  const s1=head('Home Page','Scorri le sezioni')+`<p class="b18">Troverai la nostra sezione dedicata ai risultati, alle news e i collegamenti esterni</p><div class="s">Bacheca:</div>`+nv.map(x=>`<div class="li">“${E(x.titolo)}”</div>`).join('');
- const s2=head('News dal fiume','',0)+nw.map(x=>{const im=x.img||x.immagine||x.foto;return `<div class="row nw" data-a="news" data-v="${E(x.id)}"><div><b>${E(x.titolo)}</b><span>${E((x.testo||'').slice(0,40))}${(x.testo||'').length>40?'…':''}</span></div><img class="${im?'':'ph'}" src="${E(im||LOGO)}" loading="lazy" onerror="this.onerror=null;this.className='ph';this.src='${LOGOF}'"></div>`}).join('');
+ const s2=head('News dal fiume','',0)+nw.map(x=>{const im=x.img||x.immagine||x.foto;return `<div class="row rw" data-a="news" data-v="${E(x.id)}"><div><b>${E(x.titolo)}</b><span>${E((x.testo||'').slice(0,40))}${(x.testo||'').length>40?'…':''}</span></div><img class="${im?'':'ph'}" src="${E(im||LOGO)}" loading="lazy" onerror="this.onerror=null;this.className='ph';this.src='${LOGOF}'"></div>`}).join('');
  const s3=head('Ultimi risultati','',0)+rs.map(x=>{const k=x.esito==='V'?'W':x.esito==='P'?'L':'D';return `<div class="row"><div><b>${E(x.avversario)}</b><span>${E(x.nostri)} – ${E(x.loro)}</span></div><div class="wl glass ${k}">${k}</div></div>`}).join('');
  return stack([['Bacheca',s1],['News dal Fiume',s2],['Ultimi Risultati',s3]])+sec();
 }
@@ -302,7 +323,7 @@ function vArea(){
  const s3=head('La tua area','Link to',0)+`<div class="row" style="margin-top:24px"><div class="li" style="margin:0">Gruppo Whatsapp</div><a href="https://chat.whatsapp.com/BMPFyLqQS4kBQSHLi0UUju" target="_blank" rel="noopener">${ic('#2fa84f','💬')}</a></div><div class="row" style="margin-top:30px"><div class="li" style="margin:0">Pagina Instagram</div><a href="https://www.instagram.com/marzenego_riverside/" target="_blank" rel="noopener">${ic('linear-gradient(45deg,#f9a13b,#d6249f,#5851db)','📷')}</a></div><div class="s" style="margin-top:34px">Email:</div><div class="li">marzenegoriverside@gmail.com</div>`;
  const c=(k,t)=>`<label class="ck" style="margin:2px 4px"><input type="checkbox" data-k="${k}" ${A[k]?'checked':''}>${t}</label>`;
  const s4=head('La tua area','Assets e visita medica',0)+c('kit','Ho il kit Prima Maglia')+c('borsone','Ho il Borsone')+c('felpa','Ho la felpa Warm Up')+c('casacca','Ho una casacca')+`<div class="row" style="margin:10px 4px 6px"><b style="font-size:14px;flex:none">Numero maglia:</b><input class="in" id="nm" placeholder="#" value="${E(S.ud.numeroMaglia||'')}" style="width:56px;padding:2px 8px;margin:0;border-radius:14px;font-size:14px;text-align:center"></div><div class="s">Scadenza visita medica:</div><input class="in" id="vm" type="text" placeholder="inserisci data..." value="${E(S.ud.scadenzaVisita||'')}" onfocus="this.type='date'" style="padding:6px 12px;font-size:14px;border-radius:14px;margin:4px 0 8px"><button class="btn" data-a="salva" style="padding:8px;font-size:15px;font-weight:500">Salva</button>`;
- const s5=head('La tua area','Impostazioni',0)+`<div class="s" style="margin-top:10px">Settings</div><div class="row" style="margin-bottom:6px"><span>Notifiche</span><div class="tg"><i></i></div></div><div class="row" style="margin-bottom:6px"><span>Cambia tema app</span><button class="tc" data-a="tema"></button></div><button class="lnk" data-a="fotoBtn" style="margin-top:14px">Imposta foto profilo</button><button class="lnk" data-a="fotoDel" style="color:#e5533d">Rimuovi foto profilo</button><button class="lnk" data-a="contratto" style="margin-top:22px">Leggi il contratto</button><button class="btn" data-a="pwa" style="margin-top:18px">Download PWA</button><button class="btn" data-a="pwaUp" style="margin-top:18px">Aggiorna PWA</button>`;
+ const s5=head('La tua area','Impostazioni',0)+`<div class="s" style="margin-top:10px">Settings</div><div class="row" style="margin-bottom:6px"><span>Notifiche</span><div class="tg"><i></i></div></div><div class="row" style="margin-bottom:6px"><span>Cambia tema app</span><button class="tc" data-a="tema"></button></div><button class="lnk" data-a="fotoBtn" style="margin-top:14px">Imposta foto profilo</button><button class="lnk" data-a="fotoDel" style="color:#e5533d">Rimuovi foto profilo</button><button class="lnk" data-a="contratto" style="margin-top:22px">Leggi il contratto</button><button class="btn" data-a="pwa" style="margin-top:18px">Download PWA</button>`;
  return stack([['',s1],['',s2],['',s3],['',s4],['',s5]],{nb:1})+sec();
 }
 /* ---------- RENDER ---------- */
@@ -312,15 +333,17 @@ function render(){
  $('#nav').style.display=S.page==='area'?'none':'flex';
  $('#nav').innerHTML=PAGES.map(([k,l])=>`<button class="${k===S.page?'on':''}" data-a="go" data-v="${k}">${l}</button>`).join('');
  const nv=$('#nav'),on=$('#nav .on');if(on)nv.scrollLeft=on.offsetLeft-nv.offsetLeft-8;
+ if(S.anim&&on&&!RM&&S.page!=='area')on.animate([{transform:'scale(.88)'},{transform:'scale(1)'}],{duration:420,easing:SPR});
  $('#main').style.paddingTop=S.page==='area'?'20px':'';
  try{$('#main').innerHTML=view()}catch(e){console.error(e);$('#main').innerHTML=''}
  const sl=$('#main .sl');if(sl){const d=[...$('#main .dots')?.children||[]],nx=$('#main .nx');
   sl.addEventListener('scroll',()=>{const i=Math.round(sl.scrollLeft/sl.clientWidth);d.forEach((x,j)=>x.classList.toggle('on',j===i));if(nx&&S.names.length>1)nx.textContent='Next: '+S.names[(i+1)%S.names.length]},{passive:true})}
  $('.tc')&&($('.tc').style.background=getComputedStyle(document.documentElement).getPropertyValue('--ac'));
+ if(S.anim){S.anim=false;enter()}
 }
-function go(p){if(p!=='area')S.prev=p;S.page=p;window.scrollTo(0,0);render()}
-function modal(h){closeM();const d=document.createElement('div');d.id='mod';d.innerHTML=h;document.body.appendChild(d)}
-function closeM(){$('#mod')?.remove()}
+function go(p){if(p!=='area')S.prev=p;S.page=p;window.scrollTo(0,0);S.anim=true;render()}
+function modal(h){document.querySelectorAll('.mout').forEach(x=>x.remove());const old=$('#mod');old?.remove();const d=document.createElement('div');d.id='mod';if(old)d.className='re';d.innerHTML=h;document.body.appendChild(d)}
+function closeM(){const d=$('#mod');if(!d)return;d.removeAttribute('id');d.className='mout';setTimeout(()=>d.remove(),220)}
 const glassCard=(h)=>modal(`<div class="ov" data-a="close"><div class="mc"><div class="front glass">${h}</div></div></div>`);
 function loginM(){glassCard(`<div class="t" style="font-size:30px;margin:6px 0 14px">Login</div><input class="in" id="lu" placeholder="Username" autocapitalize="none"><input class="in" id="lp" type="password" placeholder="Password"><button class="btn" data-a="login" style="margin-top:18px">Accedi</button><label class="ck"><input type="checkbox" id="lr">Resta collegato</label>`)}
 /* ---------- AZIONI ---------- */
@@ -329,7 +352,9 @@ let DP=null;addEventListener('beforeinstallprompt',e=>{e.preventDefault();DP=e})
 const A={
  go:v=>go(v),close:()=>closeM(),
  user:()=>{if(!S.u)return loginM();go(S.page==='area'?S.prev:'area')},
- mo:v=>{S.mo=new Date(S.mo.getFullYear(),S.mo.getMonth()+ +v,1);render()},
+ mo:v=>{S.mo=new Date(S.mo.getFullYear(),S.mo.getMonth()+ +v,1);render();if(!RM)$('.cg')?.animate([{opacity:0,transform:`translateX(${+v>0?16:-16}px)`},{opacity:1,transform:'none'}],{duration:340,easing:EZ})},
+ news:v=>{const x=S.D.news.find(n=>n.id===v);if(!x)return;
+  glassCard(`<div class="t" style="font-size:30px;margin-bottom:4px">${E(x.titolo)}</div><div class="st" style="font-size:18px;margin-bottom:18px">${E(x.data||'')}</div><div class="nbody">${E(x.testo||'')}</div><button class="btn" data-a="close" style="margin-top:22px">Torna indietro</button>`)},
  openEv:v=>evModal(v),tab:v=>{const[i,t]=v.split('|');evModal(i,t)},
  vota:async v=>{const[i,s]=v.split('|');if(!S.u){closeM();return loginM()}
   await setDoc(doc(db,"presenze",i+"_"+S.u.username),{eventoId:i,username:S.u.username,nome:S.u.nome,stato:s,timestamp:Date.now()});
@@ -358,18 +383,6 @@ const A={
  tema:()=>{const cur=getComputedStyle(document.documentElement).getPropertyValue('--ac').trim().toLowerCase(),pl=c=>`<span class="tc" data-a="pickT" data-v="${c}" style="display:block;background:${c};cursor:pointer;outline:${c.toLowerCase()===cur?'2px solid #fff':'0'};outline-offset:2px"></span>`;
   glassCard(`<div class="t" style="font-size:30px">La tua area</div><div class="st" style="margin-bottom:16px">Cambia tema app</div><div class="row" style="margin-bottom:10px"><b style="flex:none;font-size:15px;font-weight:500">Default:</b>${pl(TEMA_DEF)}<span style="flex:1"></span></div><div class="row" style="margin:14px 4px 0"><b style="font-size:15px;font-weight:500">Altri:</b></div><div class="tgr">${TEMI.map(pl).join('')}</div><button class="btn" data-a="close" style="margin-top:26px">Imposta</button>`)},
  pickT:v=>{setTema(v);S.ud.tema=v;save({tema:v});A.tema()},
-
- news:v=>{const x=S.D.news.find(n=>String(n.id)===String(v));if(!x)return;const im=x.img||x.immagine||x.foto;
-  glassCard(`<div class="t" style="font-size:26px">${E(x.titolo)}</div>${x.data?`<div class="st" style="font-size:15px">${E(x.data)}</div>`:''}${im?`<img class="nimg" src="${E(im)}" onerror="this.remove()">`:''}<div class="nb">${E(x.testo||'')}</div><button class="btn" data-a="close" style="margin-top:18px">Torna indietro</button>`)},
- pwaUp:async()=>{
-  try{if('serviceWorker' in navigator){(await navigator.serviceWorker.getRegistrations()).forEach(r=>r.unregister())}
-  if(window.caches){(await caches.keys()).forEach(k=>caches.delete(k))}}catch(e){}
-  const inApp=matchMedia('(display-mode:standalone)').matches||navigator.standalone;
-  const ios=/iphone|ipad|ipod/i.test(navigator.userAgent);
-  if(inApp)return alert(ios?"Per aggiornare l'icona:\n\n1. Tieni premuta l'icona nella Home → Rimuovi app\n2. Apri la pagina con Safari\n3. Vai in La tua area → Download PWA e segui le istruzioni":"Per aggiornare l'icona:\n\n1. Tieni premuta l'icona nella Home → Disinstalla\n2. Apri la pagina con Chrome\n3. Vai in La tua area → Download PWA → Installa");
-  if(DP){DP.prompt();await DP.userChoice;DP=null;return}
-  alert(ios?"Per aggiornare l'icona:\n\n1. Se l'app è nella Home, tieni premuta l'icona → Rimuovi app\n2. Tocca Condividi ↑ → \"Aggiungi alla schermata Home\"":"Per aggiornare l'icona:\n\n1. Se l'app è nella Home, tieni premuta l'icona → Disinstalla\n2. Poi premi Download PWA e scegli Installa\n\nLa pagina verrà ricaricata ora.");
-  location.reload()},
  fotoBtn:()=>$('#foto').click(),
  fotoDel:()=>{if(!S.ud.fotoProfilo)return alert("Non hai una foto profilo da rimuovere");if(!confirm("Rimuovere la foto profilo?"))return;S.ud.fotoProfilo='';save({fotoProfilo:''});render()},
  pwa:async()=>{if(matchMedia('(display-mode:standalone)').matches||navigator.standalone)return alert("L'app è già installata");
