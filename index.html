@@ -113,8 +113,8 @@ const $=(s,r=document)=>r.querySelector(s);
 const E=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const SK="mzr_session",LOGO="Marzenego.png",LOGOF="https://raw.githubusercontent.com/MarzenegoRiverside/MarzenegoWebpage/refs/heads/main/Marzenego.png";
 const TEAM="https://raw.githubusercontent.com/MarzenegoRiverside/MarzenegoWebpage/refs/heads/main/IMG-20251117-WA0030(1).jpg";
-const LOGOLAB="MZLAB.png";            // <-- logo MZ LAB: nome del file nella repo (stessa cartella di index.html)
-const LOGOLABF="";                    // <-- INCOLLA QUI il raw link GitHub del logo MZ LAB (usato se il file locale non si trova)
+const LOGOLAB="MZ LAB-Photoroom (1).png";            // <-- logo MZ LAB: nome del file nella repo (stessa cartella di index.html)
+const LOGOLABF="https://raw.githubusercontent.com/MarzenegoRiverside/MarzenegoWebpage/main/MZ%20LAB-Photoroom%20(1).png";                    // <-- INCOLLA QUI il raw link GitHub del logo MZ LAB (usato se il file locale non si trova)
 const logo=`<img class="lg" src="${LOGO}" onerror="this.onerror=null;this.src='${LOGOF}'">`;
 const logoLab=`<img class="lg" style="width:54px" src="${LOGOLAB}" onerror="${LOGOLABF?`this.onerror=null;this.src='${LOGOLABF}'`:`this.style.display='none'`}">`;
 const PAGES=[['home','Home'],['cal','Calendario'],['ev','Prossimi eventi'],['job','Lavora con noi'],['shop','Shop'],['chi','Chi siamo']];
@@ -235,7 +235,7 @@ function vShop(){
 }
 /* ---------- CHI SIAMO ---------- */
 function vChi(){
- const s1=head('Come nasce','Il progetto')+`<p class="li" style="margin:26px 12px 26px;font-size:16px">“Descrizione del nostro progetto di squadra, di come siamo nati e cosa vogliamo dal futuro”</p>`;
+ const s1=head('Come nasce','Il progetto')+`<p class="li" style="margin:26px 12px 26px;font-size:16px">Marzenego Riverside nasce nel mese di luglio 2025, dalle ceneri del progetto Aston Villa Salus. Il Marzenego, fonte d'ispirazione per il concept di squadra, è un fiume che attraversa molti dei paesi in cui siamo nati e cresciuti, ci congiunge e ci unisce come unica grande famiglia. Il nostro spirito, in campo e fuori, è quello di giocare sempre al massimo delle nostre possibilità, unendo passione a grande spirito di miglioramento. Tuttavia, una grande società, una grande squadra, non è niente senza un grande gruppo di uomini. #KeepFordingNutries!</p>`;
  const s2=head('Come nasce','Il gruppo')+`<img src="${TEAM}" style="width:100%;border-radius:22px;display:block;margin:34px 0 10px">`;
  return stack([['La storia',s1],['Gallery',s2]]);
 }
